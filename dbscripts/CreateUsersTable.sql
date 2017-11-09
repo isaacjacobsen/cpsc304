@@ -6,7 +6,3 @@ CREATE TABLE Users(
 	isActive BOOLEAN NOT NULL DEFAULT TRUE,
 	PRIMARY KEY (userid)
 );
-
-
-INSERT INTO Users (USERNAME, PASSWORD) VALUES ('test', 'test');
-INSERT INTO Users (USERNAME, PASSWORD) VALUES ('hey', 'yo');
