@@ -1,8 +1,8 @@
 /* Create Basic Users */
 INSERT INTO Users (username, password, type)
-VALUES ('test', 'test', 'Doctor');
+VALUES ('doctor', 'password', 'Doctor');
 INSERT INTO Users (username, password, type)
-VALUES ('hey', 'yo', 'Manager');
+VALUES ('manager', 'password', 'Manager');
 
 /* Create Hospitals */
 INSERT INTO Hospitals 
