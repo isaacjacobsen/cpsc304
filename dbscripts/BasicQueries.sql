@@ -13,7 +13,7 @@ WHERE
     AND patientid = (SELECT patientid
             FROM Patients
             WHERE
-                (pfirst_name || ' ' || plast_name) = 'John Doe'
+                pname = 'John Doe'
                 AND phone_num = '(604)-121-1111');
 
 CREATE TEMP TABLE CurrentTime AS
@@ -25,7 +25,7 @@ FROM
     Employees E
     JOIN Doctors D ON D.EmployeeId = E.EmployeeId
 WHERE
-    (efirst_name || ' ' || elast_name) = 'Zach Zuckerburg'
+    ename = 'Zach Zuckerburg'
     AND phone_num = '(778)-000-3333';
 
 INSERT INTO Appointments
@@ -45,7 +45,7 @@ WHERE
         (SELECT EmployeeId
         FROM Employees
         WHERE
-            (efirst_name || ' ' || elast_name) = 'Paul George'
+            ename = 'Paul George'
             AND phone_num = '(604)-202-9402')
     AND WardId = 
         (SELECT WardId
@@ -64,15 +64,15 @@ BEGIN TRANSACTION;
 UPDATE Patients
 SET phone_num = '(604)-222-2222'
 WHERE
-    (pfirst_name || ' ' || plast_name) = 'Ben Brown'
-    AND address = '333 Canada Way';
+    pname = 'Ben Brown'
+    AND address like '%333 Canada Way%';
 
 SELECT * FROM Patients;
 
 ROLLBACK;
 
 /* This gets all the patients' names admitted to VGH this month */
-SELECT DISTINCT (pfirst_name || ' ' || plast_name) as Name
+SELECT DISTINCT pname
 FROM
     Visits V
     JOIN Patients P ON P.PatientId = V.PatientId
@@ -83,18 +83,18 @@ WHERE
     AND H.hname_full = 'Vancouver General Hospital'
 
 /* This gets the names of the employees who have had an appointment with "Adam Armstrong" */
-SELECT (E.efirst_name || ' ' || E.elast_name) As EmployeeName
+SELECT ename
 FROM
     Employees E
     JOIN AttendsAppointment AA ON AA.EmployeeID = E.EmployeeId
     JOIN Visits V ON V.VisitId = AA.VisitId
     JOIN Patients P ON P.PatientId = V.PatientId
 WHERE
-    (P.pfirst_name || ' ' || P.plast_name) = 'Adam Armstrong'
+    pname = 'Adam Armstrong'
 
 /* This gets the names of all employees who work at a specific ward */
 SELECT
-    (E.efirst_name || ' ' || E.elast_name) as EmployeeName,
+    ename,
     CASE
         WHEN D.doctor_type IS NOT NULL THEN 'Doctor'
         WHEN N.nurse_type IS NOT NULL THEN 'Nurse'
@@ -113,7 +113,7 @@ WHERE
 
 /* This gets the yearly pay for each employee */
 SELECT
-    (E.efirst_name || ' ' || E.elast_name) As EmployeeName,
+    ename,
     YearlyPay,
     CASE
         WHEN D.doctor_type IS NOT NULL THEN 'Doctor'
@@ -138,7 +138,7 @@ ORDER BY
 
 /* Find names of patients who have been admitted to VGH since september 2017 */
 SELECT DISTINCT
-    (P.pfirst_name || ' ' || P.plast_name) As PatientName
+    pname As PatientName
 FROM
     Visits V
     JOIN Hospitals H ON H.HospitalId = V.HospitalId
@@ -151,7 +151,7 @@ WHERE
 /* This finds the cardiologists that work in the same hospital as "Yoshi Yamaha" */
 SELECT DISTINCT
     E2.EmployeeId,
-    (E2.efirst_name || ' ' || E2.elast_name) As EmployeeName
+    ename
 FROM
     Employees E2
     JOIN WorksAtWard WAW2 ON WAW2.EmployeeId = E2.EmployeeId
@@ -159,7 +159,7 @@ FROM
     JOIN Hospitals H2 ON H2.HospitalId = W2.HospitalId
     JOIN Doctors D ON D.EmployeeId = E2.EmployeeId
 WHERE
-    (E2.efirst_name || '' || E2.elast_name) <> 'Yoshi Yamaha'
+    ename <> 'Yoshi Yamaha'
     AND D.doctor_type = 'Cardiologist'
     AND H2.HospitalId IN
         (SELECT DISTINCT
@@ -170,12 +170,12 @@ WHERE
             JOIN Wards W ON W.WardId = WAW.WardId
             JOIN Hospitals H ON H.HospitalId = W.HospitalId
         WHERE
-            (E.efirst_name || ' ' || E.elast_name) = 'Yoshi Yamaha')
+            ename = 'Yoshi Yamaha')
 
 /* Number of appointments by each employee */
 SELECT
     E.EmployeeId,
-    (E.efirst_name || ' ' || e.elast_name) As EmployeeName,
+    ename As EmployeeName,
     CASE
         WHEN D.doctor_type IS NOT NULL THEN 'Doctor'
         WHEN N.nurse_type IS NOT NULL THEN 'Nurse'
@@ -200,4 +200,4 @@ ORDER BY
         WHEN N.nurse_type IS NOT NULL THEN 1
         ELSE 0
     END DESC,
-    (E.efirst_name || ' ' || e.elast_name)
+    ename
