@@ -1,0 +1,14 @@
+﻿DROP TABLE IF EXISTS Ward;
+CREATE TABLE Ward(
+    WardId SERIAL UNIQUE,
+	HospitalId INT NOT NULL,
+	ward_name VARCHAR(32) NOT NULL,
+	ext_num VARCHAR(10),
+	PRIMARY KEY (WardId),
+	FOREIGN KEY (HospitalId) REFERENCES Hospital(HospitalId) 
+	ON DELETE CASCADE
+);
+
+INSERT INTO Ward
+VALUES (DEFAULT, 1, 'ICU', '671');
+SELECT * FROM Ward;
