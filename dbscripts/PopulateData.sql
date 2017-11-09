@@ -35,3 +35,6 @@ INSERT INTO Patients (pfirst_name, plast_name, phone_number, address, postal_cod
 VALUES('Ben', 'Brown', '7780001111', '333 Canada Way', 'V2Q2R4'); 
 INSERT INTO Patients (pfirst_name, plast_name, phone_number, address, postal_code) 
 VALUES('Connor', 'Clark', '6141234567', '999 Queen St', 'T5U9I0');
+
+INSERT INTO Hospital 
+VALUES(DEFAULT, 'VGH', 'Vancouver General Hospital', '899 W 12th Ave, Vancouver, BC', '(604) 875-4111', 'V5Z 1M9'); 

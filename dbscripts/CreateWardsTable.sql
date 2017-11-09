@@ -1,12 +1,10 @@
-﻿DROP TABLE IF EXISTS Ward;
-CREATE TABLE Ward(
+﻿DROP TABLE IF EXISTS Wards;
+CREATE TABLE Wards(
     WardId SERIAL UNIQUE,
 	HospitalId INT NOT NULL,
 	ward_name VARCHAR(32) NOT NULL,
 	ext_num VARCHAR(10),
 	PRIMARY KEY (WardId),
-	FOREIGN KEY (HospitalId) REFERENCES Hospital(HospitalId) 
+	FOREIGN KEY (HospitalId) REFERENCES Hospitals(HospitalId) 
 	ON DELETE CASCADE
 );
-
-SELECT * FROM Ward;
