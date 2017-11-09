@@ -4,6 +4,12 @@ CREATE TABLE AttendsAppointment (
     VisitId INT NOT NULL,
     apt_datetime TIMESTAMP NOT NULL,
     PRIMARY KEY (EmployeeId, VisitId, apt_datetime),
-    FOREIGN KEY (EmployeeId) REFERENCES Employees(EmployeeId),
-    FOREIGN KEY (VisitId, apt_datetime) REFERENCES Visits(VisitId, apt_datetime)
+    FOREIGN KEY (EmployeeId)
+        REFERENCES Employees(EmployeeId)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
+    FOREIGN KEY (VisitId, apt_datetime)
+        REFERENCES Appointments(VisitId, apt_datetime)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
 );
