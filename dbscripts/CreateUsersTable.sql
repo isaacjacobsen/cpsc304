@@ -4,5 +4,6 @@ CREATE TABLE Users(
 	username VARCHAR(32) UNIQUE NOT NULL,
 	password TEXT NOT NULL,
 	isActive BOOLEAN NOT NULL DEFAULT TRUE,
+	type VARCHAR(6),
 	PRIMARY KEY (userid)
 );

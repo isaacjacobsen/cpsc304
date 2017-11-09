@@ -1,8 +1,8 @@
 /* Create Basic Users */
-INSERT INTO Users (username, password)
-VALUES ('test', 'test');
-INSERT INTO Users (username, password)
-VALUES ('hey', 'yo');
+INSERT INTO Users (username, password, type)
+VALUES ('test', 'test', 'PAT');
+INSERT INTO Users (username, password, type)
+VALUES ('hey', 'yo', 'DOC');
 
 /* Create Employees */
 INSERT INTO Employees (efirst_name, elast_name, phone_num, address, postal_code, bimonthly_wage)
