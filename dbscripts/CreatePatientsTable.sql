@@ -6,5 +6,6 @@ CREATE TABLE Patients (
 	phone_num VARCHAR(20),
 	address VARCHAR(64),
 	postal_code VARCHAR(6),
-	PRIMARY KEY (patientid)
+	PRIMARY KEY (patientid),
+	UNIQUE(pfirst_name, plast_name, phone_num)
 );

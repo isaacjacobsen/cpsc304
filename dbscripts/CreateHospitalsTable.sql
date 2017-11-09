@@ -7,5 +7,6 @@ CREATE TABLE Hospitals(
 	address VARCHAR(64) NOT NULL,
     postal_code VARCHAR(6) NOT NULL,
 	phone_num VARCHAR(20) NOT NULL,
-	PRIMARY KEY (HospitalId)
+	PRIMARY KEY (HospitalId),
+	UNIQUE(hname_full,hname_short,phone_num)
 );
