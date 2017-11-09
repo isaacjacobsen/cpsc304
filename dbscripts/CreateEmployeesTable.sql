@@ -7,5 +7,7 @@ CREATE TABLE Employees (
 	address VARCHAR(64) NOT NULL,
     postal_code VARCHAR(6) NOT NULL,
 	bimonthly_wage DECIMAL(32, 4),
-	PRIMARY KEY (EmployeeId)
+	PRIMARY KEY (EmployeeId),
+    CONSTRAINT ename_address UNIQUE(efirst_name, elast_name, address),
+    CONSTRAINT ename_phone UNIQUE(efirst_name, elast_name, phone_num)
 );
