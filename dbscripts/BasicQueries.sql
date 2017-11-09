@@ -1,4 +1,4 @@
-﻿// This is for adding an appointment for a specific user currently at the hospital
+﻿/* This is for adding an appointment for a specific user currently at the hospital */
 BEGIN TRANSACTION;
 DROP TABLE IF EXISTS PatientVisit;
 DROP TABLE IF EXISTS CurrentTime;
@@ -36,7 +36,7 @@ VALUES((SELECT EmployeeId FROM DoctorAtAppointment), (SELECT visitid FROM Patien
 
 ROLLBACK;
 
-// This deletes an employee from a specific ward
+/* This deletes an employee from a specific ward */
 BEGIN TRANSACTION;
 
 DELETE FROM WorksAtWard
@@ -57,3 +57,27 @@ WHERE
             AND ward_name = 'CCU');
 
 ROLLBACK;
+
+/* This updates a user's phone number */
+BEGIN TRANSACTION;
+
+UPDATE Patients
+SET phone_num = '(604)-222-2222'
+WHERE
+    (pfirst_name || ' ' || plast_name) = 'Ben Brown'
+    AND address = '333 Canada Way';
+
+SELECT * FROM Patients;
+
+ROLLBACK;
+
+/* This gets all the patients' names admitted to VGH this month */
+SELECT DISTINCT (pfirst_name || ' ' || plast_name) as Name
+FROM
+    Visits V
+    JOIN Patients P ON P.PatientId = V.PatientId
+    JOIN Hospitals H ON H.HospitalId = V.HospitalId
+WHERE
+    (SELECT EXTRACT(YEAR FROM admitted_datetime)) = (SELECT EXTRACT(YEAR FROM current_timestamp))
+    AND (SELECT EXTRACT(MONTH FROM admitted_datetime)) = (SELECT EXTRACT(MONTH FROM current_timestamp))
+    AND H.hname_full = 'Vancouver General Hospital'
