@@ -1,6 +1,7 @@
-﻿DROP TABLE IF EXISTS Hospital;
+﻿DROP TABLE IF EXISTS Ward;
+DROP TABLE IF EXISTS Hospital;
 CREATE TABLE Hospital(
-    HospitalId SERIAL,
+    HospitalId SERIAL UNIQUE,
 	hname_short VARCHAR(4) NOT NULL,
 	hname_full VARCHAR(32) NOT NULL,
 	address VARCHAR(32),
