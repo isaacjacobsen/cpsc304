@@ -81,3 +81,57 @@ WHERE
     (SELECT EXTRACT(YEAR FROM admitted_datetime)) = (SELECT EXTRACT(YEAR FROM current_timestamp))
     AND (SELECT EXTRACT(MONTH FROM admitted_datetime)) = (SELECT EXTRACT(MONTH FROM current_timestamp))
     AND H.hname_full = 'Vancouver General Hospital'
+
+/* This gets the names of the employees who have had an appointment with "Adam Armstrong" */
+SELECT (E.efirst_name || ' ' || E.elast_name) As EmployeeName
+FROM
+    Employees E
+    JOIN AttendsAppointment AA ON AA.EmployeeID = E.EmployeeId
+    JOIN Visits V ON V.VisitId = AA.VisitId
+    JOIN Patients P ON P.PatientId = V.PatientId
+WHERE
+    (P.pfirst_name || ' ' || P.plast_name) = 'Adam Armstrong'
+
+/* This gets the names of all employees who work at a specific ward */
+SELECT
+    (E.efirst_name || ' ' || E.elast_name) as EmployeeName,
+    CASE
+        WHEN D.doctor_type IS NOT NULL THEN 'Doctor'
+        WHEN N.nurse_type IS NOT NULL THEN 'Nurse'
+        ELSE 'Unknown'
+    END AS EmployeeType
+FROM
+    Wards W
+    JOIN WorksAtWard WAW ON WAW.WardId = W.WardId
+    JOIN Employees E ON E.EmployeeId = WAW.EmployeeId
+    JOIN Hospitals H ON H.HospitalId = W.HospitalId
+    LEFT JOIN Doctors D ON D.EmployeeId = E.EmployeeId
+    LEFT JOIN Nurses N On N.EmployeeId = E.EmployeeId
+WHERE
+    hname_full = 'Vancouver General Hospital'
+    AND ward_name = 'ICU'
+
+/* This gets the yearly pay for each employee */
+SELECT
+    (E.efirst_name || ' ' || E.elast_name) As EmployeeName,
+    YearlyPay,
+    CASE
+        WHEN D.doctor_type IS NOT NULL THEN 'Doctor'
+        WHEN N.nurse_type IS NOT NULL THEN 'Nurse'
+        ELSE 'Unknown'
+    END AS EmployeeType
+FROM
+    (SELECT
+        EmployeeId,
+        SUM(pay_amt) As YearlyPay
+    FROM
+        Payroll
+    WHERE
+        (SELECT EXTRACT(YEAR FROM pay_date)) = '2017'
+    GROUP BY
+        EmployeeId) YP
+    JOIN Employees E ON E.EmployeeId = YP.EmployeeId
+    LEFT JOIN Doctors D On D.EmployeeId = E.EmployeeId
+    LEFT JOIN Nurses N On N.EmployeeId = E.EmployeeId
+ORDER BY
+    YearlyPay DESC
