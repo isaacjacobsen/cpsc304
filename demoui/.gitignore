@@ -12,3 +12,7 @@ dist
 
 # Backpack build
 build
+
+.vscode
+
+package-lock.json
