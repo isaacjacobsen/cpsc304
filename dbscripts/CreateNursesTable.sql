@@ -1,10 +1,10 @@
 ﻿DROP TABLE IF EXISTS Nurses;
 CREATE TABLE Nurses (
-    EmployeeId INT NOT NULL,
+    employeeid INT NOT NULL,
 	nurse_type VARCHAR(32) NOT NULL,
-	PRIMARY KEY (EmployeeId),
-    FOREIGN KEY (EmployeeId)
-        REFERENCES Employees(EmployeeId)
+	PRIMARY KEY (employeeid),
+    FOREIGN KEY (employeeid)
+        REFERENCES Employees(employeeid)
             ON DELETE CASCADE
             ON UPDATE CASCADE
 );

@@ -1,19 +1,19 @@
 ﻿DROP TABLE IF EXISTS Visits;
 CREATE TABLE Visits (
-    VisitId SERIAL UNIQUE,
-    HospitalId INT NOT NULL, 
-    PatientId INT NOT NULL,
+    visitid SERIAL UNIQUE,
+    hospitalid INT NOT NULL, 
+    patientid INT NOT NULL,
     admitted_datetime TIMESTAMP,
     discharged_datetime TIMESTAMP,
-    PRIMARY KEY (VisitId),
-    FOREIGN KEY (HospitalId)
-        REFERENCES Hospitals(HospitalId)
+    PRIMARY KEY (visitid),
+    FOREIGN KEY (hospitalid)
+        REFERENCES Hospitals(hospitalid)
             ON DELETE CASCADE
             ON UPDATE CASCADE,
-    FOREIGN KEY (PatientId)
-        REFERENCES Patients(PatientId)
+    FOREIGN KEY (patientid)
+        REFERENCES Patients(patientid)
             ON DELETE CASCADE
             ON UPDATE CASCADE,
-    CONSTRAINT patient_arrived UNIQUE(PatientId, admitted_datetime),
-    CONSTRAINT patient_left UNIQUE(PatientId, discharged_datetime)
+    CONSTRAINT patient_arrived UNIQUE(patientid, admitted_datetime),
+    CONSTRAINT patient_left UNIQUE(patientid, discharged_datetime)
 );

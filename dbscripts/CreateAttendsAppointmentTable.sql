@@ -1,15 +1,15 @@
 ﻿DROP TABLE IF EXISTS AttendsAppointment;
 CREATE TABLE AttendsAppointment (
-    EmployeeId INT NOT NULL,
-    VisitId INT NOT NULL,
+    employeeid INT NOT NULL,
+    visitid INT NOT NULL,
     apt_datetime TIMESTAMP NOT NULL,
-    PRIMARY KEY (EmployeeId, VisitId, apt_datetime),
-    FOREIGN KEY (EmployeeId)
-        REFERENCES Employees(EmployeeId)
+    PRIMARY KEY (employeeid, visitid, apt_datetime),
+    FOREIGN KEY (employeeid)
+        REFERENCES Employees(employeeid)
             ON DELETE CASCADE
             ON UPDATE CASCADE,
-    FOREIGN KEY (VisitId, apt_datetime)
-        REFERENCES Appointments(VisitId, apt_datetime)
+    FOREIGN KEY (visitid, apt_datetime)
+        REFERENCES Appointments(visitid, apt_datetime)
             ON DELETE CASCADE
             ON UPDATE CASCADE
 );

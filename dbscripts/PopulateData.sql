@@ -1,8 +1,8 @@
 /* Create Basic Users */
 INSERT INTO Users (username, password, type)
-VALUES ('test', 'test', 'PAT');
+VALUES ('test', 'test', 'Doctor');
 INSERT INTO Users (username, password, type)
-VALUES ('hey', 'yo', 'DOC');
+VALUES ('hey', 'yo', 'Manager');
 
 /* Create Hospitals */
 INSERT INTO Hospitals 
@@ -23,25 +23,25 @@ VALUES (DEFAULT, 1, 'Natal', '107');
 
 /* Create Employees */
 INSERT INTO Employees
-VALUES(DEFAULT, 'Zach', 'Zuckerburg', '(778)-000-3333', '1000 Heather St', 'V2J9H7', 10500.25); 
+VALUES(DEFAULT, 'Zach Zuckerburg', '(778)-000-3333', '1000 Heather St, Vancouver, BC', 'V2J9H7', 10500.25); 
 INSERT INTO Employees
-VALUES(DEFAULT, 'Yoshi', 'Yamaha', '(604)-135-2468', '200 Granville St', 'V9H7K9', 8805.98);
+VALUES(DEFAULT, 'Yoshi Yamaha', '(604)-135-2468', '200 Granville St, Vancouver, BC', 'V9H7K9', 8805.98);
 INSERT INTO Employees
-VALUES(DEFAULT, 'Jenny', 'Appletree', '(604)-139-2468', '123 Main St', 'V7K2Q0', 2505.88);
+VALUES(DEFAULT, 'Jenny Appletree', '(604)-139-2468', '123 Main St, Vancouver, BC', 'V7K2Q0', 2505.88);
 INSERT INTO Employees
-VALUES(DEFAULT, 'John', 'Norton', '(778)-992-2468', '874 W 29th Ave', 'V0I4H8', 2852.00);
+VALUES(DEFAULT, 'John Norton', '(778)-992-2468', '874 W 29th Ave, Vancouver, BC', 'V0I4H8', 2852.00);
 INSERT INTO Employees
-VALUES(DEFAULT, 'Paul', 'George', '(604)-202-9402', '1492 Oak St', 'V9K4H8', 31841.00);
+VALUES(DEFAULT, 'Paul George', '(604)-202-9402', '1492 Oak St, Vancouver, BC', 'V9K4H8', 31841.00);
 INSERT INTO Employees
-VALUES(DEFAULT, 'Nancy', 'Greene', '(604)-104-2737', '1204-523 Homer St', 'V9R8H5', 2814.00);
+VALUES(DEFAULT, 'Nancy Greene', '(604)-104-2737', '1204-523 Homer St, Vancouver, BC', 'V9R8H5', 2814.00);
 INSERT INTO Employees
-VALUES(DEFAULT, 'Helen', 'Keller', '(778)-855-4444', '888 W 5th Ave', 'V1H1G2', 28152.00);
+VALUES(DEFAULT, 'Helen Keller', '(778)-855-4444', '888 W 5th Ave, Vancouver, BC', 'V1H1G2', 28152.00);
 INSERT INTO Employees
-VALUES(DEFAULT, 'Jason', 'Kidd', '(604)-333-1234', '2341 Langford Ave', 'V6H2G3', 3190.00);
+VALUES(DEFAULT, 'Jason Kidd', '(604)-333-1234', '2341 Langford Ave, Vancouver, BC', 'V6H2G3', 3190.00);
 INSERT INTO Employees
-VALUES(DEFAULT, 'Hardip', 'Singh', '(604)-234-5432', '51234 Boundary Rd', 'V8J7H2', 31841.00);
+VALUES(DEFAULT, 'Hardip Singh', '(604)-234-5432', '51234 Boundary Rd, Vancouver, BC', 'V8J7H2', 31841.00);
 INSERT INTO Employees
-VALUES(DEFAULT, 'Monta', 'Ellis', '(778)-542-4312', '5555 Landse Cr', 'V3J4H4', 9590.00);
+VALUES(DEFAULT, 'Monta Ellis', '(778)-542-4312', '5555 Landse Cr, Vancouver, BC', 'V3J4H4', 9590.00);
 
 /* Create Doctors */
 INSERT INTO Doctors
@@ -286,13 +286,13 @@ VALUES (DEFAULT, 1, 10, 9590.00, '2017-10-31 09:00:00.00');
 
 /* Create Patients */
 INSERT INTO Patients
-VALUES(DEFAULT, 'John', 'Doe', '(604)-121-1111', '1234 Main St', 'V1V1A1'); 
+VALUES(DEFAULT, 'John Doe', '(604)-121-1111', '1234 Main St, Vancouver, BC', 'V1V1A1'); 
 INSERT INTO Patients
-VALUES(DEFAULT, 'Adam', 'Armstrong', '(250)-100-9999', '222 Marine Drive', 'V1A9V9'); 
+VALUES(DEFAULT, 'Adam Armstrong', '(250)-100-9999', '222 Marine Dr, Vancouver, BC', 'V1A9V9'); 
 INSERT INTO Patients
-VALUES(DEFAULT, 'Ben', 'Brown', '(778)-000-1111', '333 Canada Way', 'V2Q2R4'); 
+VALUES(DEFAULT, 'Ben Brown', '(778)-000-1111', '333 Canada Way, Vancouver, BC', 'V2Q2R4'); 
 INSERT INTO Patients
-VALUES(DEFAULT, 'Connor', 'Clark', '(604)-123-4567', '999 Queen St', 'T5U9I0');
+VALUES(DEFAULT, 'Connor Clark', '(604)-123-4567', '999 Queen St, Vancouver, BC', 'T5U9I0');
 
 
 /* Create Visits */
