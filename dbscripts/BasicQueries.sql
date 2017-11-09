@@ -135,3 +135,69 @@ FROM
     LEFT JOIN Nurses N On N.EmployeeId = E.EmployeeId
 ORDER BY
     YearlyPay DESC
+
+/* Find names of patients who have been admitted to VGH since september 2017 */
+SELECT DISTINCT
+    (P.pfirst_name || ' ' || P.plast_name) As PatientName
+FROM
+    Visits V
+    JOIN Hospitals H ON H.HospitalId = V.HospitalId
+    JOIN Patients P ON P.PatientId = V.PatientId
+WHERE
+    (((SELECT EXTRACT(MONTH FROM admitted_datetime)) >= 9 AND (SELECT EXTRACT(YEAR FROM admitted_datetime)) >= 2017)
+    OR (SELECT EXTRACT(YEAR FROM admitted_datetime)) > 2017)
+    AND H.hname_full = 'Vancouver General Hospital'
+
+/* This finds the cardiologists that work in the same hospital as "Yoshi Yamaha" */
+SELECT DISTINCT
+    E2.EmployeeId,
+    (E2.efirst_name || ' ' || E2.elast_name) As EmployeeName
+FROM
+    Employees E2
+    JOIN WorksAtWard WAW2 ON WAW2.EmployeeId = E2.EmployeeId
+    JOIN Wards W2 ON W2.WardId = WAW2.WardId
+    JOIN Hospitals H2 ON H2.HospitalId = W2.HospitalId
+    JOIN Doctors D ON D.EmployeeId = E2.EmployeeId
+WHERE
+    (E2.efirst_name || '' || E2.elast_name) <> 'Yoshi Yamaha'
+    AND D.doctor_type = 'Cardiologist'
+    AND H2.HospitalId IN
+        (SELECT DISTINCT
+            H.HospitalId
+        FROM
+            Employees E
+            JOIN WorksAtWard WAW ON WAW.EmployeeId = E.EmployeeId
+            JOIN Wards W ON W.WardId = WAW.WardId
+            JOIN Hospitals H ON H.HospitalId = W.HospitalId
+        WHERE
+            (E.efirst_name || ' ' || E.elast_name) = 'Yoshi Yamaha')
+
+/* Number of appointments by each employee */
+SELECT
+    E.EmployeeId,
+    (E.efirst_name || ' ' || e.elast_name) As EmployeeName,
+    CASE
+        WHEN D.doctor_type IS NOT NULL THEN 'Doctor'
+        WHEN N.nurse_type IS NOT NULL THEN 'Nurse'
+        ELSE 'Unknown'
+    END AS EmployeeType,
+    COUNT(*) As AppointmentCount
+FROM
+    Appointments A
+    JOIN Visits V ON V.VisitId = A.VisitId
+    JOIN AttendsAppointment AA ON AA.VisitId = A.VisitId AND AA.apt_datetime = A.apt_datetime
+    JOIN Employees E ON E.EmployeeId = AA.EmployeeId
+    LEFT JOIN Doctors D ON D.EmployeeId = E.EmployeeId
+    LEFT JOIN Nurses N ON N.EmployeeId = E.EmployeeId
+GROUP BY
+    E.EmployeeId,
+    D.doctor_type,
+    N.nurse_type
+ORDER BY
+    COUNT(*) DESC,
+    CASE
+        WHEN D.doctor_type IS NOT NULL THEN 2
+        WHEN N.nurse_type IS NOT NULL THEN 1
+        ELSE 0
+    END DESC,
+    (E.efirst_name || ' ' || e.elast_name)
