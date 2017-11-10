@@ -52,6 +52,8 @@ a
   text-decoration none
   padding 10px 30px
   margin-left 15px
+  width: 120px
+  height: 40px
 
 .button--grey:hover
   color #fff
@@ -62,4 +64,15 @@ a
 
 .page-enter, .page-leave-active
   opacity 0
+
+.user-view
+  background-image url("../assets/img/835617f07e419bb.jpg")
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  opacity 30%
+  overflow: hidden;
 </style>

@@ -46,16 +46,6 @@ export default {
 
 <style lang="stylus" scoped>
 
-.user-view
-  background-image url("../../../assets/img/835617f07e419bb.jpg")
-  height: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: absolute;
-  width: 100%;
-  opacity 30%
-  overflow: hidden;
 .content
   position: absolute;
   width: 100%;
