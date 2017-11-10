@@ -1,9 +1,9 @@
 <template>
-  <!---<div class="header">
+  <div class="header">
     <div class="inner">
       <nav class="navbar__menu">
         <a target="_self" rel="noopener" href="localhost:3000" @click="goToProfile">
-          <img class="logo" src="~/assets/img/icon-home.png" alt="logo">
+          <img class="logo" src="~/assets/img/happy.png" alt="logo">
         </a>
           <a target="_self" rel="noopener" href="localhost:3000" @click="goToQueries">
               Queries
@@ -14,7 +14,7 @@
         </a>
       </nav>
     </div>
-  </div>-->
+  </div>
 </template>
 
 <script>
