@@ -1,5 +1,4 @@
 <template>
-
   <div class="wrapper">
       <div class="container">
         <form class="form">
