@@ -13,6 +13,10 @@ INSERT INTO Users (username, password, typeid)
 VALUES ('doctor', 'password', 3);
 INSERT INTO Users (username, password, typeid)
 VALUES ('manager', 'password', 2);
+INSERT INTO Users (username, password, typeid, name)
+VALUES ('lynneastwood', 'password', 4, 'Lynn Eastwood');
+INSERT INTO Users (username, password, typeid, name)
+VALUES ('steve1', 'password', 3, 'Steve Brooks');
 
 
 /* Create Hospitals */

@@ -4,8 +4,8 @@
       <div class="subsection">
         <tr style="padding-left: 20px"> Welcome! </tr>
         <!--Need to create a view so that this is casted to more descriptive usertype-->
-        <td class="user-username" style="padding: 10px 0 10px 10px; margin: 10px 0 10px 0;">{{ user.typeid }}</td>
-        <td class="user-username" style="padding: 10px 0 10px 10px; margin: 10px 0 10px 0; padding-top: 5%">{{ user.username }}</td>
+        <td class="user-type" style="padding: 10px 0 10px 10px; margin: 10px 0 10px 0;">{{ user.typeid }}</td>
+        <td class="user-username" style="padding: 10px 0 10px 10px; margin: 10px 0 10px 0; padding-top: 5%">{{ user.name }}</td>
         </div>
       <div class="subsection">
         <button type="button" class="button--grey" @click="updateUser">Update</button>
@@ -74,6 +74,9 @@ export default {
     font-size 26px
     font-weight 500
   .user-username
+    font-size 24px
+    font-weight 500
+  .user-type
     font-size 24px
     font-weight 500
   .user-password
