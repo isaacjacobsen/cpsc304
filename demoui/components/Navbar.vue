@@ -3,7 +3,7 @@
     <div class="inner">
       <nav class="navbar__menu">
         <a target="_self" rel="noopener" href="localhost:3000" @click="profile">
-          <img class="logo" src="~/assets/img/happy.png" alt="logo">
+          <img class="logo" src="~/assets/img/icon-home.png" alt="logo">
         </a>
         <nuxt-link to="/">Query</nuxt-link>
         <a class="logout" target="_self" rel="noopener" href="localhost:3000" @click="logout">
