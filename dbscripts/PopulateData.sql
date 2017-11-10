@@ -4,9 +4,11 @@ VALUES (1, 'System Admin', false, false, false, false, false, true, false, false
 INSERT INTO UserTypes
 VALUES (2, 'Hospital Manager', false, true, true, true, false, false, true, false);
 INSERT INTO UserTypes
-VALUES (3, 'Employee', false, false, false, false, true, false, true, true);
+VALUES (3, 'Doctor', true, false, false, false, true, false, true, true);
 INSERT INTO UserTypes
 VALUES (4, 'Patient', true, false, false, false, false, false, false, false);
+INSERT INTO UserTypes
+VALUES (4, 'Nurse', false, false, false, false, true, false, false, true);
 
 /* Create Basic Users */
 INSERT INTO Users (username, password, typeid)
@@ -17,6 +19,14 @@ INSERT INTO Users (username, password, typeid, name)
 VALUES ('lynneastwood', 'password', 4, 'Lynn Eastwood');
 INSERT INTO Users (username, password, typeid, name)
 VALUES ('steve1', 'password', 3, 'Steve Brooks');
+INSERT INTO Users (username, password, typeid, name)
+VALUES ('lana1', 'password', 1, 'Lana Ardoin');
+INSERT INTO Users (username, password, typeid, name)
+VALUES ('jae1', 'password', 2, 'Jae Willimas');
+INSERT INTO Users (username, password, typeid, name)
+VALUES ('wilton1', 'password', 3, 'Wilton Kaiser');
+INSERT INTO Users (username, password, typeid, name)
+VALUES ('pat1', 'password', 4, 'Patty Balza');
 
 
 /* Create Hospitals */
