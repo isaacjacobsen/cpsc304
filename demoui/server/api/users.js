@@ -12,7 +12,7 @@ router.get('/users', function (req, res, next) {
   console.log("IN USERS")
   const username = req.query.username
   const password = req.query.password
-  const query = 'SELECT * FROM Users WHERE username = :username AND password = :password ;'
+  const query = 'SELECT * FROM Users WHERE username = :username AND password = :password '
   connection.query(query, 
     { 
       type: connection.QueryTypes.SELECT,
@@ -33,13 +33,16 @@ router.get('/users', function (req, res, next) {
 /* GET user by ID. */
 router.get('/users/:userid', function (req, res, next) {
   const userid = req.params.userid
-  const query = 'SELECT * FROM Users WHERE userid = :userid ;'
+  const typeid = req.query.typeid
+  const usertypename = req.query.usertypename
+  const query = 'SELECT * FROM Users, UserTypes WHERE users.userid = :userid AND users.typeid=usertypes.usertypeid'
   connection.query(query, 
     { 
       type: connection.QueryTypes.SELECT,
       replacements: {
         typeid: typeid,
-        userid: userid
+        userid: userid,
+        usertypename: usertypename
       }
     })
     .then(user => {

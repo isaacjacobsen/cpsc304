@@ -3,8 +3,7 @@
     <div class="content">
       <div class="subsection">
         <tr style="padding-left: 20px"> Welcome! </tr>
-        <!--Need to create a view so that this is casted to more descriptive usertype-->
-        <td class="user-type" style="padding: 10px 0 10px 10px; margin: 10px 0 10px 0;">{{ user.typeid }}</td>
+        <td class="user-type" style="padding: 10px 0 10px 10px; margin: 10px 0 10px 0; font-size: 110%">{{ user.usertypename }}</td>
         <td class="user-username" style="padding: 10px 0 10px 10px; margin: 10px 0 10px 0; padding-top: 5%">{{ user.name }}</td>
         </div>
       <div class="subsection">
@@ -79,6 +78,7 @@ export default {
   .user-type
     font-size 24px
     font-weight 500
+    color #46a2c5
   .user-password
     font-size 24px
     font-weight 500
