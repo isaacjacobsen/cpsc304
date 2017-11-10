@@ -66,7 +66,7 @@ a
   opacity 0
 
 .user-view
-  background-image url("../assets/img/835617f07e419bb.jpg")
+  background-image url("../assets/img/basic_background.jpg")
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

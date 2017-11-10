@@ -51,7 +51,7 @@ export default {
     margin: 0;
   }
   .wrapper {
-    background-image: url("../assets/img/de1_0506.jpg");
+    background-image: url("../assets/img/home_background.jpg");
     height: 100%;
     background-position: center;
     background-repeat: no-repeat;
