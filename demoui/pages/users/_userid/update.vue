@@ -13,6 +13,7 @@
             </div>
         </form>
         <button type="button" class="button--grey" @click="submitUpdate">Update</button>
+        <button type="button" class="button--grey" @click="goBack">Back</button>
       </div>
     </div>
   </section>
@@ -58,6 +59,9 @@ export default {
         .catch((e) => {
           console.log(e)
         })
+    },
+    goBack () {
+      this.$nuxt.$router.replace({ path: `/users/${this.user.userid}` })
     }
   },
 

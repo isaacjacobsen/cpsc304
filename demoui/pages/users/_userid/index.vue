@@ -2,8 +2,14 @@
   <section class="user-view">
     <div class="content">
       <div class="subsection">
-        <span class="user-username" style="padding: 10px 0 10px 10px; margin: 10px 0 10px 0;">{{ user.username }}</span>
+        <tr style="padding-left: 20px"> Welcome! </tr>
+        <!--Need to create a view so that this is casted to usertype-->
+        <td class="user-username" style="padding: 10px 0 10px 10px; margin: 10px 0 10px 0;">{{ user.typeid }}</td>
+        <td class="user-username" style="padding: 10px 0 10px 10px; margin: 10px 0 10px 0; padding-top: 5%">{{ user.username }}</td>
+        </div>
+      <div class="subsection">
         <button type="button" class="button--grey" @click="updateUser">Update</button>
+        <button type="button" class="button--grey" @click="logoutUser">Logout</button>
       </div>
     </div>
   </section>
@@ -31,6 +37,9 @@ export default {
   methods: {
     updateUser () {
       this.$nuxt.$router.replace({ path: `/users/${this.user.userid}/update` })
+    },
+    logoutUser () {
+      this.$nuxt.$router.replace({ path: '../' })
     }
   }
 }

@@ -38,6 +38,7 @@ router.get('/users/:userid', function (req, res, next) {
     { 
       type: connection.QueryTypes.SELECT,
       replacements: {
+        typeid: typeid,
         userid: userid
       }
     })
