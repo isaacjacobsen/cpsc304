@@ -4,9 +4,11 @@ VALUES (1, 'System Admin', false, false, false, false, false, true, false, false
 INSERT INTO UserTypes
 VALUES (2, 'Hospital Manager', false, true, true, true, false, false, true, false);
 INSERT INTO UserTypes
-VALUES (3, 'Employee', false, false, false, false, true, false, true, true);
+VALUES (3, 'Doctor', true, false, false, false, true, false, true, true);
 INSERT INTO UserTypes
 VALUES (4, 'Patient', true, false, false, false, false, false, false, false);
+INSERT INTO UserTypes
+VALUES (5, 'Nurse', false, false, false, false, true, false, false, true);
 
 /* Create Basic Users */
 INSERT INTO Users (username, password, typeid)
