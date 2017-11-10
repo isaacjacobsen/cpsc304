@@ -4,25 +4,20 @@ const bodyParser = require('body-parser')
 
 const router = Router()
 
-/* GET users listing. */
+/*
+  GET user using username/password.
+  of form /users?username=username&password=password
+*/
 router.get('/users', function (req, res, next) {
-  const query = 'SELECT * FROM Users;'
-  connection.query(query, { type: connection.QueryTypes.SELECT })
-    .then(users => {
-      console.log(users)
-      res.json(users)
-    })
-})
-
-/* GET user by ID. */
-router.get('/users/:username', function (req, res, next) {
-  const username = req.params.username
-  const query = 'SELECT * FROM Users WHERE username = :username ;'
+  const username = req.query.username
+  const password = req.query.password
+  const query = 'SELECT * FROM Users WHERE username = :username AND password = :password ;'
   connection.query(query, 
     { 
       type: connection.QueryTypes.SELECT,
       replacements: {
-        username: username
+        username: username,
+        password: password
       }
     })
     .then(user => {
@@ -34,10 +29,30 @@ router.get('/users/:username', function (req, res, next) {
     })
 })
 
-router.post('/users/update', bodyParser.json(), function (req, res, next) {
-  const userid = req.body.data.userid
+/* GET user by ID. */
+router.get('/users/:userid', function (req, res, next) {
+  const userid = req.params.userid
+  const query = 'SELECT * FROM Users WHERE userid = :userid ;'
+  connection.query(query, 
+    { 
+      type: connection.QueryTypes.SELECT,
+      replacements: {
+        userid: userid
+      }
+    })
+    .then(user => {
+      if (user.length === 1 ) {
+        res.json(user[0])
+      } else {
+        res.status(404).json({})
+      }
+    })
+})
+
+router.post('/users/:userid/update', bodyParser.json(), function (req, res, next) {
+  const userid = req.params.userid
   const username = req.body.data.username
-  const password = req.body.data.password
+  const password = req.body.data.password 
 
   const query = 'UPDATE Users SET username = :username, password = :password WHERE userid = :userid ;'
   connection.query(query,
@@ -50,8 +65,7 @@ router.post('/users/update', bodyParser.json(), function (req, res, next) {
       }
     })
     .then(result => {
-      // result[1] is the number of rows changed
-      res.send('/users')
+      res.send('/users/' + userid)
     })
 })
 
@@ -60,7 +74,7 @@ router.post('/users/add', bodyParser.json(), function (req, res, next) {
   const username = req.body.data.username
   const password = req.body.data.password
 
-  const query = 'INSERT INTO Users (username, password) VALUES (:username, :password) ;'
+  const query = 'INSERT INTO Users (username, password, type) VALUES (:username, :password) ;'
   connection.query(query,
     {
       type: connection.QueryTypes.INSERT,

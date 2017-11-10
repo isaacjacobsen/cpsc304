@@ -3,8 +3,7 @@
     <div class="content">
       <div class="subsection">
         <span class="user-username" style="padding: 10px 0 10px 10px; margin: 10px 0 10px 0;">{{ user.username }}</span>
-        <span class="user-password" style="padding: 10px 10px; margin: 10px 0 10px 0;">{{ `(${user.password})` }}</span>
-        <nuxt-link :to="{ path: `/users/${user.username}/update`, params: { username: user.username }}">Update</nuxt-link>
+        <button type="button" class="button--grey" @click="updateUser">Update</button>
       </div>
     </div>
   </section>
@@ -14,9 +13,9 @@
 import axios from '~/plugins/axios'
 
 export default {
-  name: 'username',
+  name: 'userid',
   asyncData ({ params, error }) {
-    return axios.get('/api/users/' + params.username)
+    return axios.get('/api/users/' + params.userid)
       .then((res) => {
         return { user: res.data }
       })
@@ -27,6 +26,11 @@ export default {
   head () {
     return {
       title: `User: ${this.user.username}`
+    }
+  },
+  methods: {
+    updateUser () {
+      this.$nuxt.$router.replace({ path: `/users/${this.user.userid}/update` })
     }
   }
 }

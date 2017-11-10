@@ -5,8 +5,18 @@
       <h1 class="title">
         Hospital System
       </h1>
-      <div class="links">
-        <nuxt-link class="button--grey link" style="margin-left: 15px;" to="/users">View Users</nuxt-link>
+      <div class="subsection">
+        <form style="margin: 15px 15px;">
+            <div style="margin: 10px 0;">
+              <span class="user-username">Username: </span>
+              <input type="text" :value="username" v-model="username"></input>
+            </div>
+            <div style="margin: 10px 0;">
+              <span class="user-password">Password: </span>
+              <input type="password" v-model="password"></input>
+            </div>
+        </form>
+        <button type="button" class="button--grey" @click="attemptLogin">Login</button>
       </div>
     </div>
   </section>
@@ -14,10 +24,30 @@
 
 <script>
 import Logo from '~/components/Logo.vue'
+import axios from '~/plugins/axios'
 
 export default {
   components: {
     Logo
+  },
+  data () {
+    return {
+      username: '',
+      password: ''
+    }
+  },
+
+  methods: {
+    attemptLogin () {
+      axios.get('/api/users' + '?username=' + this.username + '&password=' + this.password)
+        .then((res) => {
+          // res.data should contain the url for redirecting... bad practice
+          self.$nuxt.$router.replace({ path: '/users/' + res.data.userid })
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    }
   }
 }
 </script>

@@ -23,7 +23,7 @@ import axios from '~/plugins/axios'
 
 export default {
   asyncData ({ params, error }) {
-    return axios.get('/api/users/' + params.username)
+    return axios.get('/api/users/' + params.userid)
       .then((res) => {
         return { user: res.data }
       })
@@ -40,7 +40,7 @@ export default {
     submitUpdate () {
       let self = this
 
-      axios.post('/api/users/update', {
+      axios.post('/api/users/' + self.user.userid + '/update', {
         headers:
           {
             'Content-Type': 'application/json'
