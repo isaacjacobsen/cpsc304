@@ -2,13 +2,12 @@
   <section class="user-view">
     <div class="content">
       <div class="subsection">
-        <tr style="padding-left: 20px"> Welcome! </tr>
-        <td class="user-type" style="padding: 10px 0 10px 10px; margin: 10px 0 10px 0; font-size: 110%">{{ user.usertypename }}</td>
-        <td class="user-username" style="padding: 10px 0 10px 10px; margin: 10px 0 10px 0; padding-top: 5%">{{ user.name }}</td>
-        </div>
-      <div class="subsection">
-        <button type="button" class="button--grey" @click="updateUser">Update</button>
-        <button type="button" class="button--grey" @click="logoutUser">Logout</button>
+        <span class="user-username" style="padding: 10px 0 10px 20px; margin: 10px 0 10px 0; padding-top: 5%">{{ user.name }}</span>
+        <br>
+        <span class="user-type" style="padding: 10px 0 10px 20px; margin: 10px 0 10px 0; font-size: 110%">User type: {{ user.usertypename }}</span>
+        <br><br>
+        <button class="button--grey" @click="updateUser">Update</button>
+        <button class="button--grey" @click="logoutUser">Logout</button>
       </div>
     </div>
   </section>
@@ -38,7 +37,8 @@ export default {
       this.$nuxt.$router.replace({ path: `/users/${this.user.userid}/update` })
     },
     logoutUser () {
-      this.$nuxt.$router.replace({ path: '../' })
+      this.user = {}
+      this.$nuxt.$router.replace({ path: '/' })
     }
   }
 }
