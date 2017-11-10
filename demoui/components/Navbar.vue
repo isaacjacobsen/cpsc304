@@ -2,11 +2,13 @@
   <div class="header">
     <div class="inner">
       <nav class="navbar__menu">
-        <a target="_self" rel="noopener" href="localhost:3000" @click="profile">
+        <a target="_self" rel="noopener" href="localhost:3000" @click="goToProfile">
           <img class="logo" src="~/assets/img/icon-home.png" alt="logo">
         </a>
-        <nuxt-link to="/">Query</nuxt-link>
-        <nuxt-link to="/users/">User Home</nuxt-link>
+          <a target="_self" rel="noopener" href="localhost:3000" @click="goToQueries">
+              Queries
+          </a>
+        <a target="_self" rel="noopener" href="localhost:3000" @click="goToProfile">User Home</a>
         <a class="logout" target="_self" rel="noopener" href="localhost:3000" @click="logout" style="font-size: inherit">
           Logout
         </a>
@@ -22,12 +24,15 @@ export default {
       this.user = {}
       this.$nuxt.$router.replace({ path: '/' })
     },
-    profile () {
+    goToProfile () {
       if (this.user !== undefined && this.user.userid !== undefined) {
         this.$nuxt.$router.replace({ path: `/users/${this.user.userid}` })
       } else {
         this.$nuxt.$router.replace({ path: '/' })
       }
+    },
+    goToQueries () {
+      this.$nuxt.$router.replace({ path: '/queries' })
     }
   }
 }
