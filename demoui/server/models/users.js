@@ -14,6 +14,9 @@ var attributes = {
     },
     password: {
         type: Sequelize.STRING,
+    },
+    type: {
+        type: Sequelize.INTEGER
     }
 };
 

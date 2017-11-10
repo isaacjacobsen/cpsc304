@@ -2,9 +2,9 @@
   <div class="header">
     <div class="inner">
       <nav class="navbar__menu">
-        <router-link to="{path: `/users/${user.userid}`}" exact>
+        <a target="_self" rel="noopener" href="localhost:3000" @click="profile">
           <img class="logo" src="~/assets/img/happy.png" alt="logo">
-        </router-link>
+        </a>
         <nuxt-link to="/">Query</nuxt-link>
         <a class="logout" target="_self" rel="noopener" href="localhost:3000" @click="logout">
           Logout
@@ -20,6 +20,13 @@ export default {
     logout () {
       this.user = {}
       this.$nuxt.$router.replace({ path: '/' })
+    },
+    profile () {
+      if (this.user !== undefined && this.user.userid !== undefined) {
+        this.$nuxt.$router.replace({ path: `/users/${this.user.userid}` })
+      } else {
+        this.$nuxt.$router.replace({ path: '/' })
+      }
     }
   }
 }
