@@ -2,12 +2,12 @@
   <div class="header">
     <div class="inner">
       <nav class="navbar__menu">
-        <router-link to="/" exact>
+        <router-link to="{path: `/users/${user.userid}`}" exact>
           <img class="logo" src="~/assets/img/happy.png" alt="logo">
         </router-link>
-        <nuxt-link to="/users">Users</nuxt-link>
-        <a class="github" href="https://github.com/belinghy/cpsc304" target="_blank" rel="noopener">
-          Github
+        <nuxt-link to="/">Query</nuxt-link>
+        <a class="logout" target="_self" rel="noopener" href="localhost:3000" @click="logout">
+          Logout
         </a>
       </nav>
     </div>
@@ -15,7 +15,14 @@
 </template>
 
 <script>
-export default {}
+export default {
+  methods: {
+    logout () {
+      this.user = {}
+      this.$nuxt.$router.replace({ path: '/' })
+    }
+  }
+}
 </script>
 
 <style lang="stylus" scoped>
@@ -48,7 +55,7 @@ export default {}
         font-weight 400
       &:nth-child(6)
         margin-right 0
-    .github
+    .logout
       font-size .9em
       margin 0
       float right
