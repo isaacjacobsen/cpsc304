@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <!---<div class="header">
     <div class="inner">
       <nav class="navbar__menu">
         <router-link to="/" exact>
@@ -11,7 +11,7 @@
         </a>
       </nav>
     </div>
-  </div>
+  </div>-->
 </template>
 
 <script>
@@ -19,6 +19,8 @@ export default {}
 </script>
 
 <style lang="stylus" scoped>
+
+
 .header
   background-color #111111
   position fixed

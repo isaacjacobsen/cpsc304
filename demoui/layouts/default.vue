@@ -21,9 +21,9 @@ body
   font-size 15px
   background-color lighten(#eceef1, 30%)
   margin 0
-  padding-top 55px
+  //padding-top 55px
   color #34495e
-  overflow-y scroll
+  //overflow-y scroll
 
 *, *:before, *:after
   box-sizing border-box
@@ -34,7 +34,7 @@ a
   text-decoration none
 
 .view
-  max-width 800px
+  //max-width 800px
   margin 0 auto
   position relative
 

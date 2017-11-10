@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+<style>
+</style>
+<body>
+<div class="wrapper">
+    <div class="card">
+    <div class="container">
+        <form class="form">
+            <h1 style="font-weight: 700">UBC Hospital System</h1>
+            <input type="text" id="name" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <a type="" id="login" onclick="tologin()">Login</a>
+        </form>
+    </div>
+    </div>
+</div>
+</body>
+
+<script>
+function tologin()
+{
+       console.log("okok");
+        $.ajax({
+            url: 'http://localhost:3000/api/users?username=' + encodeURIComponent($("#name").val()) + '&password=' + encodeURIComponent($("#password").val()),
+            type: 'GET',
+            crossOrigin: true,
+            cache: false,
+            success: function (data) {
+                console.log(data);
+            }
+        });
+}
+</script>
+
+</html>
