@@ -6,17 +6,17 @@
         Hospital System
       </h1>
       <div class="subsection">
-        <form style="margin: 15px 15px;">
+        <form style="margin: 15px 15px; font-weight: 200; font-size: 25px">
             <div style="margin: 10px 0;">
               <span class="user-username">Username: </span>
-              <input type="text" :value="username" v-model="username"></input>
+              <input style="height: 25px;" type="text" :value="username" v-model="username"></input>
             </div>
             <div style="margin: 10px 0;">
               <span class="user-password">Password: </span>
-              <input type="password" v-model="password"></input>
+              <input style="height: 25px;" type="password" v-model="password"></input>
             </div>
         </form>
-        <button type="button" class="button--grey" @click="attemptLogin">Login</button>
+        <button type="button" class="button--grey" @click="attemptLogin" style="font-size: inherit">Login</button>
       </div>
     </div>
   </section>

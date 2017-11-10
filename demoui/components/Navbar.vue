@@ -6,7 +6,8 @@
           <img class="logo" src="~/assets/img/icon-home.png" alt="logo">
         </a>
         <nuxt-link to="/">Query</nuxt-link>
-        <a class="logout" target="_self" rel="noopener" href="localhost:3000" @click="logout">
+        <nuxt-link to="/users/">User Home</nuxt-link>
+        <a class="logout" target="_self" rel="noopener" href="localhost:3000" @click="logout" style="font-size: inherit">
           Logout
         </a>
       </nav>
@@ -34,7 +35,7 @@ export default {
 
 <style lang="stylus" scoped>
 .header
-  background-color #111111
+  background-color #004466
   position fixed
   z-index 999
   height 55px
