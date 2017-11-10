@@ -3,7 +3,7 @@
     <div class="content">
       <div class="subsection">
         <tr style="padding-left: 20px"> Welcome! </tr>
-        <!--Need to create a view so that this is casted to usertype-->
+        <!--Need to create a view so that this is casted to more descriptive usertype-->
         <td class="user-username" style="padding: 10px 0 10px 10px; margin: 10px 0 10px 0;">{{ user.typeid }}</td>
         <td class="user-username" style="padding: 10px 0 10px 10px; margin: 10px 0 10px 0; padding-top: 5%">{{ user.username }}</td>
         </div>
@@ -46,12 +46,20 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.user-view
-  padding-top 0
 
+.user-view
+  background-image url("../../../assets/img/835617f07e419bb.jpg")
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  width: 100%;
+  opacity 30%
+  overflow: hidden;
 .content
-  position absolute
-  width 100%
+  position: absolute;
+  width: 100%;
 
 .subsection
   background-color #fff
