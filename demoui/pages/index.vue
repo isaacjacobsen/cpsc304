@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
 
   <div class="wrapper">
       <div class="container">
@@ -9,27 +8,6 @@
           <input type="password" v-model="password" placeholder="password"/>
           <button type="button" id="login" @click="attemptLogin">Login</button>
         </form>
-=======
-  <section class="container">
-    <div>
-    <Logo />
-      <h1 class="title">
-        Hospital System
-      </h1>
-      <div class="subsection">
-        <form style="margin: 15px 15px; font-weight: 200; font-size: 25px">
-            <div style="margin: 10px 0;">
-              <span class="user-username">Username: </span>
-              <input style="height: 25px;" type="text" :value="username" v-model="username"></input>
-            </div>
-            <div style="margin: 10px 0;">
-              <span class="user-password">Password: </span>
-              <input style="height: 25px;" type="password" v-model="password"></input>
-            </div>
-        </form>
-        <button type="button" class="button--grey" @click="attemptLogin" style="font-size: inherit">Login</button>
-      </div>
->>>>>>> f88c7792532250cd91775496e224c74427124b5f
     </div>
   </div>
 </template>
