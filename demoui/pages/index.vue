@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
       <div class="container">
-        <form class="form">
+        <form class="form" id="form">
           <h1 style="font-weight: 700; padding: 0 0 30px 0; color: white">UBC Hospital System</h1>
           <input type="text" :value="username" placeholder="User Name" v-model="username"/>
           <input type="password" v-model="password" placeholder="password"/>
@@ -34,7 +34,8 @@ export default {
           self.$nuxt.$router.replace({ path: '/users/' + res.data.userid })
         })
         .catch((e) => {
-          console.log(e)
+          alert('Invalid user name or password, please try again')
+          document.getElementById('form').reset()
         })
     }
   }
@@ -47,7 +48,7 @@ export default {
     font-family: 'Source Sans Pro', sans-serif;
     color: white;
     font-weight: 300;
-    margin: 0px;
+    margin: 0;
   }
   .wrapper {
     background-image: url("../assets/img/de1_0506.jpg");
@@ -87,7 +88,7 @@ export default {
   .card {
     box-shadow: 0 14px 18px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-    border-radius: 15px; /* 5px rounded corners */
+    border-radius: 15px;
   }
   form input {
     outline: 0;
