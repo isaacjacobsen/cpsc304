@@ -2,12 +2,15 @@
   <!---<div class="header">
     <div class="inner">
       <nav class="navbar__menu">
-        <router-link to="/" exact>
-          <img class="logo" src="~/assets/img/happy.png" alt="logo">
-        </router-link>
-        <nuxt-link to="/users">Users</nuxt-link>
-        <a class="github" href="https://github.com/belinghy/cpsc304" target="_blank" rel="noopener">
-          Github
+        <a target="_self" rel="noopener" href="localhost:3000" @click="goToProfile">
+          <img class="logo" src="~/assets/img/icon-home.png" alt="logo">
+        </a>
+          <a target="_self" rel="noopener" href="localhost:3000" @click="goToQueries">
+              Queries
+          </a>
+        <a target="_self" rel="noopener" href="localhost:3000" @click="goToProfile">User Home</a>
+        <a class="logout" target="_self" rel="noopener" href="localhost:3000" @click="logout" style="font-size: inherit">
+          Logout
         </a>
       </nav>
     </div>
@@ -15,14 +18,31 @@
 </template>
 
 <script>
-export default {}
+export default {
+  methods: {
+    logout () {
+      this.user = {}
+      this.$nuxt.$router.replace({ path: '/' })
+    },
+    goToProfile () {
+      if (this.user !== undefined && this.user.userid !== undefined) {
+        this.$nuxt.$router.replace({ path: `/users/${this.user.userid}` })
+      } else {
+        this.$nuxt.$router.replace({ path: '/' })
+      }
+    },
+    goToQueries () {
+      this.$nuxt.$router.replace({ path: '/queries' })
+    }
+  }
+}
 </script>
 
 <style lang="stylus" scoped>
 
 
 .header
-  background-color #111111
+  background-color #004466
   position fixed
   z-index 999
   height 55px
@@ -50,7 +70,7 @@ export default {}
         font-weight 400
       &:nth-child(6)
         margin-right 0
-    .github
+    .logout
       font-size .9em
       margin 0
       float right
