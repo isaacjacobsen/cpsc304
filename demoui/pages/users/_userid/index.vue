@@ -7,6 +7,7 @@
         <span class="user-type" style="padding: 10px 0 10px 20px; margin: 10px 0 10px 0; font-size: 110%">User type: {{ user.usertypename }}</span>
         <br><br>
         <button class="button--grey" @click="updateUser">Update</button>
+        <button v-if="show" class="button--grey">Appointments</button>
         <button class="button--grey" @click="logoutUser">Logout</button>
       </div>
     </div>
@@ -21,7 +22,8 @@ export default {
   asyncData ({ params, error }) {
     return axios.get('/api/users/' + params.userid)
       .then((res) => {
-        return { user: res.data }
+        return { user: res.data,
+          show: res.data.access_appointments}
       })
       .catch((e) => {
         error({ statusCode: 404, message: 'User not found' })

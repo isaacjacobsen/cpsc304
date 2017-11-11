@@ -60,12 +60,16 @@ router.get('/users/:userid', function (req, res, next) {
                     LEFT JOIN Patients P ON P.patientid = U.patientid
                 WHERE
                   U.userid = :userid`
-                  
+
   connection.query(query, 
     { 
       type: connection.QueryTypes.SELECT,
       replacements: {
-        userid: userid
+
+        typeid: typeid,
+        userid: userid,
+        usertypename: usertypename,
+        access_appointments: access_appointments
       }
     })
     .then(user => {
