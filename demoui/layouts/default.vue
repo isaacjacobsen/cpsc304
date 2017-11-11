@@ -52,7 +52,7 @@ a
   text-decoration none
   padding 10px 30px
   margin-left 15px
-  width: 120px
+  min-width: 120px
   height: 40px
 
 .button--grey:hover

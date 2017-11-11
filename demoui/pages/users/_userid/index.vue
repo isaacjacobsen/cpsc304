@@ -22,8 +22,10 @@ export default {
   asyncData ({ params, error }) {
     return axios.get('/api/users/' + params.userid)
       .then((res) => {
-        return { user: res.data,
-          show: (res.data.doctor_type !== null)}
+        return {
+          user: res.data,
+          show: (res.data.doctor_type !== null || res.data.nurse_type !== null)
+        }
       })
       .catch((e) => {
         error({ statusCode: 404, message: 'User not found' })
