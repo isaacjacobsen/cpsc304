@@ -32,6 +32,8 @@ router.get('/users', function (req, res, next) {
 /* GET user by ID. */
 router.get('/users/:userid', function (req, res, next) {
   const userid = req.params.userid
+  const typeid = req.params.usertypeid
+  const usertypename = req.params.usertypename
   const query =`SELECT
                   userid,
                   username,
@@ -65,11 +67,9 @@ router.get('/users/:userid', function (req, res, next) {
     { 
       type: connection.QueryTypes.SELECT,
       replacements: {
-
         typeid: typeid,
         userid: userid,
-        usertypename: usertypename,
-        access_appointments: access_appointments
+        usertypename: usertypename
       }
     })
     .then(user => {
