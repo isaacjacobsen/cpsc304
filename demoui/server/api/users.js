@@ -32,16 +32,40 @@ router.get('/users', function (req, res, next) {
 /* GET user by ID. */
 router.get('/users/:userid', function (req, res, next) {
   const userid = req.params.userid
-  const typeid = req.query.typeid
-  const usertypename = req.query.usertypename
-  const query = 'SELECT * FROM Users, UserTypes WHERE users.userid = :userid AND users.typeid=usertypes.usertypeid'
+  const query =`SELECT
+                  userid,
+                  username,
+                  password,
+                  name,
+                  usertypeid,
+                  usertypename,
+                  CASE
+                    WHEN D.employeeid IS NOT NULL THEN D.employeeid
+                      WHEN N.employeeid IS NOT NULL THEN N.employeeid
+                      WHEN P.patientid IS NOT NULL THEN P.patientid
+                      ELSE NULL
+                  END AS id,
+                  doctor_type,
+                  md_license_num,
+                  nurse_type,
+                  pname,
+                  phone_num,
+                  address,
+                  postal_code
+                FROM
+                  Users U
+                    JOIN UserTypes UT ON UT.usertypeid = U.typeid
+                    LEFT JOIN Doctors D ON D.employeeid = U.employeeid
+                    LEFT JOIN Nurses N ON N.employeeid = U.employeeid
+                    LEFT JOIN Patients P ON P.patientid = U.patientid
+                WHERE
+                  U.userid = :userid`
+                  
   connection.query(query, 
     { 
       type: connection.QueryTypes.SELECT,
       replacements: {
-        typeid: typeid,
-        userid: userid,
-        usertypename: usertypename
+        userid: userid
       }
     })
     .then(user => {

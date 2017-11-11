@@ -1,34 +1,3 @@
-/* Create User Types */
-INSERT INTO UserTypes
-VALUES (1, 'System Admin', false, false, false, false, false, true, false, false);
-INSERT INTO UserTypes
-VALUES (2, 'Hospital Manager', false, true, true, true, false, false, true, false);
-INSERT INTO UserTypes
-VALUES (3, 'Doctor', true, false, false, false, true, false, true, true);
-INSERT INTO UserTypes
-VALUES (4, 'Patient', true, false, false, false, false, false, false, false);
-INSERT INTO UserTypes
-VALUES (4, 'Nurse', false, false, false, false, true, false, false, true);
-
-/* Create Basic Users */
-INSERT INTO Users (username, password, typeid)
-VALUES ('doctor', 'password', 3);
-INSERT INTO Users (username, password, typeid)
-VALUES ('manager', 'password', 2);
-INSERT INTO Users (username, password, typeid, name)
-VALUES ('lynneastwood', 'password', 4, 'Lynn Eastwood');
-INSERT INTO Users (username, password, typeid, name)
-VALUES ('steve1', 'password', 3, 'Steve Brooks');
-INSERT INTO Users (username, password, typeid, name)
-VALUES ('lana1', 'password', 1, 'Lana Ardoin');
-INSERT INTO Users (username, password, typeid, name)
-VALUES ('jae1', 'password', 2, 'Jae Willimas');
-INSERT INTO Users (username, password, typeid, name)
-VALUES ('wilton1', 'password', 3, 'Wilton Kaiser');
-INSERT INTO Users (username, password, typeid, name)
-VALUES ('pat1', 'password', 4, 'Patty Balza');
-
-
 /* Create Hospitals */
 INSERT INTO Hospitals 
 VALUES(DEFAULT, 'VGH', 'Vancouver General Hospital', '899 W 12th Ave, Vancouver, BC', 'V5Z1M9', '(604)-875-4111'); 
@@ -373,3 +342,28 @@ INSERT INTO AttendsAppointment
 VALUES(10 , 4, '2017-03-21 09:55:01.00');
 INSERT INTO AttendsAppointment
 VALUES(2 , 4, '2017-03-21 09:55:01.00');
+
+
+/* Create User Types */
+INSERT INTO UserTypes
+VALUES (1, 'System Admin', false, false, false, false, false, true, false, false);
+INSERT INTO UserTypes
+VALUES (2, 'Hospital Manager', false, true, true, true, false, false, true, false);
+INSERT INTO UserTypes
+VALUES (3, 'Doctor', false, false, false, false, true, false, true, true);
+INSERT INTO UserTypes
+VALUES (4, 'Nurse', false, false, false, false, true, false, true, true);
+INSERT INTO UserTypes
+VALUES (5, 'Patient', true, false, false, false, false, false, false, false);
+
+/* Create Basic Users */
+INSERT INTO Users (username, password, typeid, name, employeeid)
+VALUES ('zachz', 'password', 3, 'Zach Zuckerburg', 1);
+INSERT INTO Users (username, password, typeid, name, employeeid)
+VALUES ('japple', 'password', 4, 'Jenny Appletree', 3);
+INSERT INTO Users (username, password, typeid, name, patientid)
+VALUES ('johndoe', 'password', 5, 'John Doe', 1);
+INSERT INTO Users (username, password, typeid, name, patientid)
+VALUES ('connorc', 'password', 5, 'Steve Brooks', 4);
+INSERT INTO Users (username, password, typeid, name)
+VALUES ('jakey', 'password', 2, 'Jake Helton')
