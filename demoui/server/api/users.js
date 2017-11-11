@@ -9,7 +9,6 @@ const router = Router()
   of form /users?username=username&password=password
 */
 router.get('/users', function (req, res, next) {
-  console.log("IN USERS")
   const username = req.query.username
   const password = req.query.password
   const query = 'SELECT * FROM Users WHERE username = :username AND password = :password '

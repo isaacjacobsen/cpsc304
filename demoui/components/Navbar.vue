@@ -21,15 +21,10 @@
 export default {
   methods: {
     logout () {
-      this.user = {}
       this.$nuxt.$router.replace({ path: '/' })
     },
     goToProfile () {
-      if (this.user !== undefined && this.user.userid !== undefined) {
-        this.$nuxt.$router.replace({ path: `/users/${this.user.userid}` })
-      } else {
-        this.$nuxt.$router.replace({ path: '/' })
-      }
+      this.$nuxt.$router.replace({ path: '/' })
     },
     goToQueries () {
       this.$nuxt.$router.replace({ path: '/queries' })

@@ -1,10 +1,10 @@
 <template>
   <div class="wrapper">
       <div class="container">
-        <form class="form" id="form">
+        <form class="form">
           <h1 style="font-weight: 700; padding: 0 0 30px 0; color: white">UBC Hospital System</h1>
           <input type="text" :value="username" placeholder="User Name" v-model="username"/>
-          <input type="password" v-model="password" placeholder="password"/>
+          <input type="password" v-model="password" placeholder="Password"/>
           <button type="button" id="login" @click="attemptLogin">Login</button>
         </form>
     </div>
@@ -34,8 +34,9 @@ export default {
           self.$nuxt.$router.replace({ path: '/users/' + res.data.userid })
         })
         .catch((e) => {
+          this.username = ''
+          this.password = ''
           alert('Invalid user name or password, please try again')
-          document.getElementById('form').reset()
         })
     }
   }
