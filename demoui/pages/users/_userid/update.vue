@@ -53,7 +53,7 @@ export default {
           e_add: res.data.e_add,
           p_post: res.data.p_post,
           e_post: res.data.e_post,
-          is_emp: (res.data.usertypeid === (3 || 4)),
+          is_emp: (res.data.usertypeid === 3 || res.data.usertypeid === 4),
           is_pat: (res.data.usertypeid === 5)
         }
       })
@@ -70,13 +70,21 @@ export default {
 
     submitUpdate () {
       let self = this
-      let phoneNum = function () {
-        if (self.e_phone !== null) {
-          return self.e_phone
-        } else if (self.p_phone !== null) {
-          return self.p_phone
-        } else {
-          return null
+      let getInfo = function () {
+        if (self.is_emp) {
+          console.log('is employee')
+          return {
+            phone: self.e_phone,
+            address: self.e_add,
+            postcode: self.e_post
+          }
+        } else if (self.is_pat) {
+          console.log('is patient')
+          return {
+            phone: self.p_phone,
+            address: self.p_add,
+            postcode: self.p_post
+          }
         }
       }
 
@@ -91,15 +99,16 @@ export default {
             username: self.user.username,
             password: self.user.password,
             name: self.user.name,
-            phoneNum: phoneNum()
-          }})
-        .then((res) => {
-          // res.data should contain the url for redirecting... bad practice
-          self.$nuxt.$router.replace({ path: res.data })
-        })
-        .catch((e) => {
-          console.log(e)
-        })
+            phoneNum: getInfo().phone,
+            address: getInfo().address,
+            postCode: getInfo().postcode
+          }
+      }).then((res) => {
+        // res.data should contain the url for redirecting... bad practice
+        console.log(res.data)
+        self.$nuxt.$router.replace({ path: res.data })
+      })
+        .catch((e) => { console.log(e) })
     },
     goBack () {
       this.$nuxt.$router.replace({ path: `/users/${this.user.userid}` })

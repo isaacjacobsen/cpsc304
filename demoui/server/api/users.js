@@ -88,6 +88,8 @@ router.post('/users/:userid/update', bodyParser.json(), function (req, res, next
   const password = req.body.data.password;
   const name = req.body.data.name;
   const phone_num = req.body.data.phoneNum;
+  const address = req.body.data.address;
+  const postCode = req.body.data.postCode;
   var employeeid = "";
   var patientid = "";
 
@@ -104,27 +106,31 @@ router.post('/users/:userid/update', bodyParser.json(), function (req, res, next
       patientid = result[0].patientid;
       console.log(employeeid);
       console.log(patientid);
+      const query_2 = "UPDATE _tab_1 SET phone_num = :phone_num, address = :address, postal_code = :postal_code" +
+        " WHERE _id = :id_value ;"
       if (employeeid !== null){
-        const query_2 = "UPDATE Employees SET phone_num = :phone_num WHERE employeeid = :employeeid ;"
-        connection.query(query_2,
+        connection.query(query_2.replace("_tab_1", "Employees").replace("_id", "employeeid"),
           {
             type: connection.QueryTypes.UPDATE,
             replacements: {
-              employeeid: employeeid,
-              phone_num: phone_num
+              id_value: employeeid,
+              phone_num: phone_num,
+              address: address,
+              postal_code: postCode
             }
           }
         ).then(result => {
           console.log("sucessfully updated phonenum");
         })
       } else if (patientid !== null){
-        const query_2 = "UPDATE Patients SET phone_num = :phone_num WHERE patientid = :patientid ;"
-        connection.query(query_2,
+        connection.query(query_2.replace("_tab_1", "Patients").replace("_id", "patientid"),
           {
             type: connection.QueryTypes.UPDATE,
             replacements: {
-              patientid: patientid,
-              phone_num: phone_num
+              id_value: patientid,
+              phone_num: phone_num,
+              address: address,
+              postal_code: postCode
             }
           }
         ).then(result => {
@@ -147,7 +153,6 @@ router.post('/users/:userid/update', bodyParser.json(), function (req, res, next
     .then(result => {
       res.send('/users/' + userid)
     });
-
 });
 
 router.post('/users/add', bodyParser.json(), function (req, res, next) {
