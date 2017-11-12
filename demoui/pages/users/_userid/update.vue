@@ -16,17 +16,17 @@
               <input type="password" v-model="user.password"></input>
             </div>
             <div style="margin: 10px 0;">
-                <span class="user-phonenum">Phone Number: </span>
+                <span v-if="is_emp||is_pat" class="user-phonenum">Phone Number: </span>
                 <input v-if="is_emp" type="text" :value="e_phone" v-model="e_phone"></input>
                 <input v-if="is_pat" type="text" :value="p_phone" v-model="p_phone"></input>
             </div>
             <div style="margin: 10px 0;">
-                <span class="user-address">Address: </span>
+                <span v-if="is_emp||is_pat" class="user-address">Address: </span>
                 <input v-if="is_emp" type="text" :value="e_add" v-model="e_add"></input>
                 <input v-if="is_pat" type="text" :value="p_add" v-model="p_add"></input>
             </div>
             <div style="margin: 10px 0;">
-                <span class="user-postcode">Postal Code: </span>
+                <span v-if="is_emp||is_pat" class="user-postcode">Postal Code: </span>
                 <input v-if="is_emp" type="text" :value="e_post" v-model="e_post"></input>
                 <input v-if="is_pat" type="text" :value="p_post" v-model="p_post"></input>
             </div>
