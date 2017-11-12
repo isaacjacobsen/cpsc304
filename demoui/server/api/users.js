@@ -32,7 +32,7 @@ router.get('/users', function (req, res, next) {
 /* GET user by ID. */
 router.get('/users/:userid', function (req, res, next) {
   const userid = req.params.userid
-  const query =`SELECT
+  const query =`﻿SELECT
                   userid,
                   username,
                   password,
@@ -49,12 +49,16 @@ router.get('/users/:userid', function (req, res, next) {
                   md_license_num,
                   nurse_type,
                   pname,
-                  phone_num,
-                  address,
-                  postal_code
+                  E.phone_num AS e_phone,
+                  P.phone_num AS p_phone,
+                  E.address AS e_add,
+                  P.address AS p_add,
+                  E.postal_code AS e_post,
+                  P.postal_code AS p_post
                 FROM
                   Users U
                     JOIN UserTypes UT ON UT.usertypeid = U.typeid
+                    LEFT JOIN Employees E ON E.employeeid = U.employeeid
                     LEFT JOIN Doctors D ON D.employeeid = U.employeeid
                     LEFT JOIN Nurses N ON N.employeeid = U.employeeid
                     LEFT JOIN Patients P ON P.patientid = U.patientid
@@ -65,11 +69,12 @@ router.get('/users/:userid', function (req, res, next) {
     { 
       type: connection.QueryTypes.SELECT,
       replacements: {
-        userid: userid
+        userid: userid,
       }
     })
     .then(user => {
       if (user.length === 1 ) {
+        console.log(user[0]);
         res.json(user[0])
       } else {
         res.status(404).json({})
@@ -78,15 +83,62 @@ router.get('/users/:userid', function (req, res, next) {
 })
 
 router.post('/users/:userid/update', bodyParser.json(), function (req, res, next) {
-  const userid = req.params.userid
-  const username = req.body.data.username
-  const password = req.body.data.password 
+  const userid = req.params.userid;
+  const username = req.body.data.username;
+  const password = req.body.data.password;
+  const name = req.body.data.name;
+  const phone_num = req.body.data.phoneNum;
+  var employeeid = "";
+  var patientid = "";
 
-  const query = 'UPDATE Users SET username = :username, password = :password WHERE userid = :userid ;'
+  const query_1 = "SELECT employeeid, patientid FROM Users WHERE userid = :userid ;";
+  connection.query(query_1,
+    {
+      type: connection.QueryTypes.SELECT,
+      replacements: {
+        userid: userid
+      }
+    })
+    .then(result => {
+      employeeid = result[0].employeeid;
+      patientid = result[0].patientid;
+      console.log(employeeid);
+      console.log(patientid);
+      if (employeeid !== null){
+        const query_2 = "UPDATE Employees SET phone_num = :phone_num WHERE employeeid = :employeeid ;"
+        connection.query(query_2,
+          {
+            type: connection.QueryTypes.UPDATE,
+            replacements: {
+              employeeid: employeeid,
+              phone_num: phone_num
+            }
+          }
+        ).then(result => {
+          console.log("sucessfully updated phonenum");
+        })
+      } else if (patientid !== null){
+        const query_2 = "UPDATE Patients SET phone_num = :phone_num WHERE patientid = :patientid ;"
+        connection.query(query_2,
+          {
+            type: connection.QueryTypes.UPDATE,
+            replacements: {
+              patientid: patientid,
+              phone_num: phone_num
+            }
+          }
+        ).then(result => {
+          console.log("sucessfully updated phonenum");
+        })
+      }
+    });
+  const query = 'UPDATE Users SET username = :username, password = :password, name = :name' +
+    ' WHERE userid = :userid ;'
   connection.query(query,
     {
       type: connection.QueryTypes.UPDATE,
       replacements: {
+        name: name,
         username: username,
         password: password,
         userid: userid
@@ -94,8 +146,9 @@ router.post('/users/:userid/update', bodyParser.json(), function (req, res, next
     })
     .then(result => {
       res.send('/users/' + userid)
-    })
-})
+    });
+
+});
 
 router.post('/users/add', bodyParser.json(), function (req, res, next) {
   const userid = req.body.data.userid
@@ -115,6 +168,7 @@ router.post('/users/add', bodyParser.json(), function (req, res, next) {
       // result[1] is the number of rows changed
       res.send('/users')
     })
+
 })
 
 export default router

@@ -8,6 +8,7 @@
         <br><br>
         <button class="button--grey" @click="updateUser">Update</button>
         <button v-if="show" class="button--grey">Appointments</button>
+        <my-component v-if="show"></my-component>
         <button class="button--grey" @click="logoutUser">Logout</button>
       </div>
     </div>
