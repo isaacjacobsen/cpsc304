@@ -5,30 +5,30 @@
         <form style="margin: 15px 15px;">
             <div style="margin: 10px 0;">
                 <span class="user-name">Name: </span>
-                <input type="text" :value="user.name" v-model="user.name"></input>
+                <input type="text" :value="user.name" v-model="user.name">
             </div>
             <div style="margin: 10px 0;">
               <span class="user-username">Username: </span>
-              <input type="text" :value="user.username" v-model="user.username"></input>
+              <input type="text" :value="user.username" v-model="user.username">
             </div>
             <div style="margin: 10px 0;">
               <span class="user-password">Password: </span>
-              <input type="password" v-model="user.password"></input>
+              <input type="password" v-model="user.password">
             </div>
             <div style="margin: 10px 0;">
                 <span v-if="is_emp||is_pat" class="user-phonenum">Phone Number: </span>
-                <input v-if="is_emp" type="text" :value="e_phone" v-model="e_phone"></input>
-                <input v-if="is_pat" type="text" :value="p_phone" v-model="p_phone"></input>
+                <input v-if="is_emp" type="text" :value="e_phone" v-model="e_phone">
+                <input v-if="is_pat" type="text" :value="p_phone" v-model="p_phone">
             </div>
             <div style="margin: 10px 0;">
                 <span v-if="is_emp||is_pat" class="user-address">Address: </span>
-                <input v-if="is_emp" type="text" :value="e_add" v-model="e_add"></input>
-                <input v-if="is_pat" type="text" :value="p_add" v-model="p_add"></input>
+                <input v-if="is_emp" type="text" :value="e_add" v-model="e_add">
+                <input v-if="is_pat" type="text" :value="p_add" v-model="p_add">
             </div>
             <div style="margin: 10px 0;">
                 <span v-if="is_emp||is_pat" class="user-postcode">Postal Code: </span>
-                <input v-if="is_emp" type="text" :value="e_post" v-model="e_post"></input>
-                <input v-if="is_pat" type="text" :value="p_post" v-model="p_post"></input>
+                <input v-if="is_emp" type="text" :value="e_post" v-model="e_post">
+                <input v-if="is_pat" type="text" :value="p_post" v-model="p_post">
             </div>
         </form>
         <button type="button" class="button--grey" @click="submitUpdate">Update</button>
@@ -105,7 +105,6 @@ export default {
           }
       }).then((res) => {
         // res.data should contain the url for redirecting... bad practice
-        console.log(res.data)
         self.$nuxt.$router.replace({ path: res.data })
       })
         .catch((e) => { console.log(e) })

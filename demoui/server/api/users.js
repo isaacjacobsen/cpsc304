@@ -74,7 +74,6 @@ router.get('/users/:userid', function (req, res, next) {
     })
     .then(user => {
       if (user.length === 1 ) {
-        console.log(user[0]);
         res.json(user[0])
       } else {
         res.status(404).json({})
@@ -104,8 +103,6 @@ router.post('/users/:userid/update', bodyParser.json(), function (req, res, next
     .then(result => {
       employeeid = result[0].employeeid;
       patientid = result[0].patientid;
-      console.log(employeeid);
-      console.log(patientid);
       const query_2 = "UPDATE _tab_1 SET phone_num = :phone_num, address = :address, postal_code = :postal_code" +
         " WHERE _id = :id_value ;"
       if (employeeid !== null){
@@ -156,22 +153,24 @@ router.post('/users/:userid/update', bodyParser.json(), function (req, res, next
 });
 
 router.post('/users/add', bodyParser.json(), function (req, res, next) {
-  const userid = req.body.data.userid
   const username = req.body.data.username
   const password = req.body.data.password
+  const typeid = req.body.data.typeid
+  const userid = req.params.userid;
 
-  const query = 'INSERT INTO Users (username, password, type) VALUES (:username, :password) ;'
+  const query = 'INSERT INTO Users (username, password, typeid) VALUES (:username, :password, :typeid) ;'
   connection.query(query,
     {
       type: connection.QueryTypes.INSERT,
       replacements: {
         username: username,
-        password: password
+        password: password,
+        typeid: typeid
       }
     })
     .then(result => {
       // result[1] is the number of rows changed
-      res.send('/users')
+      res.send('/users/' + userid)
     })
 
 })
