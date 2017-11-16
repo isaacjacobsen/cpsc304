@@ -6,9 +6,10 @@
         <br>
         <span class="user-type" style="padding: 10px 0 10px 20px; margin: 10px 0 10px 0; font-size: 110%">User type: {{ user.usertypename }}</span>
         <br><br>
-        <button class="button--grey" @click="updateUser">Update</button>
+        <button class="button--grey" @click="updateUser">Update Info</button>
         <button v-if="isAdm" class="button--grey" @click="addUser">Add User</button>
         <button v-if="show" class="button--grey">Appointments</button>
+        <button v-if="isManager" class="button--grey" @click="viewEmployees">View Employees</button>
         <button class="button--grey" @click="logoutUser">Logout</button>
       </div>
     </div>
@@ -26,7 +27,8 @@ export default {
         return {
           user: res.data,
           show: (res.data.doctor_type !== null || res.data.nurse_type !== null),
-          isAdm: (res.data.usertypeid === 1)
+          isAdm: (res.data.usertypeid === 1),
+          isManager: (res.data.usertypeid === 2)
         }
       })
       .catch((e) => {
@@ -44,6 +46,9 @@ export default {
     },
     updateUser () {
       this.$nuxt.$router.replace({ path: `/users/${this.user.userid}/update` })
+    },
+    viewEmployees () {
+      this.$nuxt.$router.replace({ path: `/users/${this.user.userid}/view_employees` })
     },
     logoutUser () {
       this.user = {}
