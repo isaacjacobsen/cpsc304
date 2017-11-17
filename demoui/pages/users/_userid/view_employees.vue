@@ -21,7 +21,7 @@
             </tr>
             </tbody>
         </table>
-        <button type="button" class="button--grey" @click="updatePayroll">Update Employee</button>
+        <button type="button" class="button--grey" @click="updatePayroll">Update Wage</button>
         <button type="button" class="button--grey" @click="goBack">Back</button>
       </div>
     </div>

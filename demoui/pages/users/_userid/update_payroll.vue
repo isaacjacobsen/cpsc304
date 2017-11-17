@@ -18,7 +18,7 @@
                     <input v-if="(bimonthly_wage !== '')" type="number" :value="bimonthly_wage" v-model="bimonthly_wage">
                 </div>
                 <div>
-                    <span class="employee-header">Yearly Pay: </span>
+                    <span class="employee-header">YTD Earnings: </span>
                     <span class="employee-info">{{ yearlypay }}</span>
                 </div>
                 <div>
@@ -69,14 +69,22 @@ export default {
     getEmployee () {
       return axios.get(`/api/employees/emp_payroll/${this.employeeid}`)
         .then((res) => {
-          this.employee = res.data
-          this.ename = res.data.ename
-          this.employeetype = res.data.employeetype
-          this.yearlypay = res.data.yearlypay
-          this.bimonthly_wage = res.data.bimonthly_wage
+          if (res.statusCode !== 404) {
+            this.employee = res.data
+            this.ename = res.data.ename
+            this.employeetype = res.data.employeetype
+            this.yearlypay = res.data.yearlypay
+            this.bimonthly_wage = res.data.bimonthly_wage
+          } else {
+            this.ename = 'Not valid employee ID'
+          }
         })
         .catch((e) => {
-          console.log(e)
+          this.employee = ''
+          this.ename = 'Not Valid Employee ID'
+          this.employeetype = ''
+          this.yearlypay = ''
+          this.bimonthly_wage = ''
         })
     },
 
@@ -95,11 +103,13 @@ export default {
         // res.data should contain the url for redirecting... bad practice
         self.$nuxt.$router.replace({ path: res.data })
       })
-        .catch((e) => { console.log(e) })
+        .catch((e) => {
+          console.log(e)
+        })
     },
 
     goBack () {
-      this.$nuxt.$router.replace({ path: `/users/${this.user.userid}` })
+      this.$nuxt.$router.replace({ path: `/users/${this.user.userid}/view_employees` })
     }
   },
 
