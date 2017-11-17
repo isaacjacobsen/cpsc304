@@ -3,7 +3,7 @@
     <div class="content">
       <div class="subsection">
         <table style="margin-top: 3%; margin-bottom: 10%">
-            <thead class="subsection-title">Update Employee Payroll</thead>
+            <thead class="subsection-title">Update Employee Wage</thead>
             <div style="margin-top: 5%">
                 <div>
                     <span class="employee-header">Name: </span>
@@ -15,7 +15,7 @@
                 </div>
                 <div>
                     <span class="employee-header">Bimonthly Wage: </span>
-                    <input type="number" :value="bimonthly_wage" v-model="bimonthly_wage">
+                    <input v-if="(bimonthly_wage !== '')" type="number" :value="bimonthly_wage" v-model="bimonthly_wage">
                 </div>
                 <div>
                     <span class="employee-header">Yearly Pay: </span>
