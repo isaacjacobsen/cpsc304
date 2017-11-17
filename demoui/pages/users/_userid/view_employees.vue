@@ -2,23 +2,23 @@
   <section class="user-view">
     <div class="content">
       <div class="subsection">
-        <table>
-            <thead class="subsection-title">List of Employees
-                <tr>
-                    <th class="employee-name">Employee Name</th>
-                    <th class="employee-info">Employee ID</th>
-                    <th class="employee-info">Bimonthly Wage</th>
-                </tr>
-                <tr v-for="(employee, index) in employees">
-                    <td class="employee-name">{{ employee.ename }}</td>
-                    <td class="employee-info">{{ employee.employeeid }}</td>
-                    <td class="employee-info">{{ employee.bimonthly_wage }}</td>
-                </tr>
-            </thead>
+        <table style="margin-top: 3%; margin-bottom: 10%">
+            <thead class="subsection-title">List of Employees</thead>
             <tbody>
-                <tr>
-                    <th> </th>
-                </tr>
+            <tr class="employee-header">
+                <th>Employee Name</th>
+                <th>Employee ID</th>
+                <th>Bimonthly Wage</th>
+                <th>YTD Earnings</th>
+                <th>Employee Type</th>
+            </tr>
+            <tr v-for="(employee, index) in employees">
+                <td class="employee-name">{{ employee.ename }}</td>
+                <td class="employee-info">{{ employee.employeeid }}</td>
+                <td class="employee-info">{{ employee.bimonthly_wage }}</td>
+                <td class="employee-info">{{ employee.yearlypay }}</td>
+                <td class="employee-info">{{ employee.employeetype }}</td>
+            </tr>
             </tbody>
         </table>
         <button type="button" class="button--grey">Update</button>
@@ -38,10 +38,10 @@ export default {
       .then((res) => {
         return {
           user: res.data,
-          show: (res.data.doctor_type !== null || res.data.nurse_type !== null),
           isAdm: (res.data.usertypeid === 1),
           isManager: (res.data.usertypeid === 2),
-          employees: []
+          employees: [],
+          emp_ytd: []
         }
       })
       .catch((e) => {
@@ -88,15 +88,21 @@ export default {
 .subsection
   background-color #fff
   border-radius 2px
-  margin 25px 0
   transition all .5s cubic-bezier(.55,0,.1,1)
   padding 10px 30px 10px 30px
   position relative
   line-height 20px
   .subsection-title
-    margin 25px 10px
+    margin-top 3%
+    margin-bottom 2%
     font-size 26px
     font-weight 500
+  .employee-header
+    padding 20px 30px 10px 30px
+    margin 60px 25px
+    font-size 18px
+    font-weight 300
+    color #0d5a94
   .employee-name
     font-size 18px
     font-weight 300
