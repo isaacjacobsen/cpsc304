@@ -3,7 +3,7 @@
     <div class="content">
       <div class="subsection">
         <table style="margin-top: 3%; margin-bottom: 10%">
-            <thead class="subsection-title">List of Employees</thead>
+            <span class="subsection-title">List of Employees</span>
             <tbody>
             <tr class="employee-header">
                 <th>Employee Name</th>
@@ -21,7 +21,7 @@
             </tr>
             </tbody>
         </table>
-        <button type="button" class="button--grey" @click="updatePayroll">Update Wage</button>
+        <button type="button" class="button--grey" @click="updatePayroll">Update Employee</button>
         <button type="button" class="button--grey" @click="goBack">Back</button>
       </div>
     </div>

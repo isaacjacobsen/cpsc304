@@ -4,7 +4,10 @@
       <div class="subsection">
         <span class="user-username" style="padding: 10px 0 10px 20px; margin: 10px 0 10px 0; padding-top: 5%">{{ user.name }}</span>
         <br>
-        <span class="user-type" style="padding: 10px 0 10px 20px; margin: 10px 0 10px 0; font-size: 110%">User type: {{ user.usertypename }}</span>
+        <span class="user-type">User type: {{ user.usertypename }}</span>
+        <br>
+        <span v-if="(this.user.doctor_type !== null)" class="user-type">Ward: {{ user.doctor_type }}</span>
+        <span v-if="(this.user.nurse_type !== null)" class="user-type">Ward: {{ user.nurse_type }}</span>
         <br><br>
         <button class="button--grey" @click="updateUser">Update Info</button>
         <button v-if="isAdm" class="button--grey" @click="addUser">Add User</button>
@@ -30,8 +33,7 @@ export default {
           isAdm: (res.data.usertypeid === 1),
           isManager: (res.data.usertypeid === 2)
         }
-      })
-      .catch((e) => {
+      }).catch((e) => {
         error({ statusCode: 404, message: 'User not found' })
       })
   },
@@ -80,9 +82,11 @@ export default {
     font-size 24px
     font-weight 500
   .user-type
-    font-size 24px
-    font-weight 500
+    font-size 20px
+    font-weight 300
     color #46a2c5
+    padding 10px 0 10px 20px
+    margin: 10px 10 10px 0
   .user-password
     font-size 24px
     font-weight 500
