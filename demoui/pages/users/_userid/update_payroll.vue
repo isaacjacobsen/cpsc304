@@ -48,7 +48,7 @@ export default {
     return axios.get('/api/users/' + params.userid)
       .then((res) => {
         return {
-          user: res.data,
+          userid: res.data.userid,
           isAdm: (res.data.usertypeid === 1),
           isManager: (res.data.usertypeid === 2)
         }
@@ -101,7 +101,7 @@ export default {
           },
         data:
           {
-            userid: this.user.userid,
+            userid: this.userid,
             bimonthly_wage: this.bimonthly_wage
           }
       }).then((res) => {
@@ -114,7 +114,7 @@ export default {
     },
 
     goBack () {
-      this.$nuxt.$router.replace({ path: `/users/${this.user.userid}/view_employees` })
+      this.$nuxt.$router.replace({ path: `/users/${this.userid}/view_employees` })
     }
   },
 

@@ -38,7 +38,6 @@ export default {
     return axios.get('/api/users/' + params.userid)
       .then((res) => {
         return {
-          user: res.data,
           userid: res.data.userid
         }
       })

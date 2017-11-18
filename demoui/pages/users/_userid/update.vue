@@ -15,20 +15,17 @@
               <span class="user-password">Password: </span>
               <input type="password" v-model="user.password">
             </div>
-            <div style="margin: 10px 0;">
-                <span v-if="is_emp||is_pat" class="user-phonenum">Phone Number: </span>
-                <input v-if="is_emp" type="text" :value="e_phone" v-model="e_phone">
-                <input v-if="is_pat" type="text" :value="p_phone" v-model="p_phone">
+            <div v-if="is_emp||is_pat" style="margin: 10px 0;">
+                <span  class="user-phonenum">Phone Number: </span>
+                <input :value="phone_num" v-model="phone_num">
             </div>
-            <div style="margin: 10px 0;">
-                <span v-if="is_emp||is_pat" class="user-address">Address: </span>
-                <input v-if="is_emp" type="text" :value="e_add" v-model="e_add">
-                <input v-if="is_pat" type="text" :value="p_add" v-model="p_add">
+            <div v-if="is_emp||is_pat" style="margin: 10px 0;">
+                <span  class="user-address">Address: </span>
+                <input type="text" :value="address" v-model="address">
             </div>
-            <div style="margin: 10px 0;">
-                <span v-if="is_emp||is_pat" class="user-postcode">Postal Code: </span>
-                <input v-if="is_emp" type="text" :value="e_post" v-model="e_post">
-                <input v-if="is_pat" type="text" :value="p_post" v-model="p_post">
+            <div v-if="is_emp||is_pat" style="margin: 10px 0;">
+                <span class="user-postcode">Postal Code: </span>
+                <input type="text" :value="postal_code" v-model="postal_code">
             </div>
         </form>
         <button type="button" class="button--grey" @click="submitUpdate">Update</button>
@@ -47,14 +44,11 @@ export default {
       .then((res) => {
         return {
           user: res.data,
-          e_phone: res.data.e_phone,
-          p_phone: res.data.p_phone,
-          p_add: res.data.p_add,
-          e_add: res.data.e_add,
-          p_post: res.data.p_post,
-          e_post: res.data.e_post,
-          is_emp: (res.data.usertypeid === 3 || res.data.usertypeid === 4),
-          is_pat: (res.data.usertypeid === 5)
+          phone_num: res.data.phone_num,
+          address: res.data.address,
+          postal_code: res.data.postal_code,
+          is_emp: res.data.isemployee,
+          is_pat: res.data.ispatient
         }
       })
       .catch((e) => {
@@ -69,25 +63,6 @@ export default {
   methods: {
 
     submitUpdate () {
-      let self = this
-      let getInfo = function () {
-        if (self.is_emp) {
-          console.log('is employee')
-          return {
-            phone: self.e_phone,
-            address: self.e_add,
-            postcode: self.e_post
-          }
-        } else if (self.is_pat) {
-          console.log('is patient')
-          return {
-            phone: self.p_phone,
-            address: self.p_add,
-            postcode: self.p_post
-          }
-        }
-      }
-
       axios.post('/api/users/' + self.user.userid + '/update', {
         headers:
           {
@@ -99,9 +74,9 @@ export default {
             username: self.user.username,
             password: self.user.password,
             name: self.user.name,
-            phoneNum: getInfo().phone,
-            address: getInfo().address,
-            postCode: getInfo().postcode
+            phoneNum: self.phone_num,
+            address: self.address,
+            postCode: self.postal_code
           }
       }).then((res) => {
         // res.data should contain the url for redirecting... bad practice

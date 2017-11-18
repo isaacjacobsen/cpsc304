@@ -12,8 +12,8 @@ router.get('/users', function (req, res, next) {
   const username = req.query.username
   const password = req.query.password
   const query = 'SELECT * FROM Users WHERE username = :username AND password = :password '
-  connection.query(query, 
-    { 
+  connection.query(query,
+    {
       type: connection.QueryTypes.SELECT,
       replacements: {
         username: username,
@@ -21,7 +21,7 @@ router.get('/users', function (req, res, next) {
       }
     })
     .then(user => {
-      if (user.length === 1 ) {
+      if (user.length === 1) {
         res.json(user[0])
       } else {
         res.status(404).json({})
@@ -32,48 +32,22 @@ router.get('/users', function (req, res, next) {
 /* GET user by ID. */
 router.get('/users/:userid', function (req, res, next) {
   const userid = req.params.userid
-  const query =`﻿SELECT
-                  userid,
-                  username,
-                  password,
-                  name,
-                  usertypeid,
-                  usertypename,
-                  CASE
-                    WHEN D.employeeid IS NOT NULL THEN D.employeeid
-                      WHEN N.employeeid IS NOT NULL THEN N.employeeid
-                      WHEN P.patientid IS NOT NULL THEN P.patientid
-                      ELSE NULL
-                  END AS id,
-                  doctor_type,
-                  md_license_num,
-                  nurse_type,
-                  pname,
-                  E.phone_num AS e_phone,
-                  P.phone_num AS p_phone,
-                  E.address AS e_add,
-                  P.address AS p_add,
-                  E.postal_code AS e_post,
-                  P.postal_code AS p_post
+  const query = `
+                SELECT *
                 FROM
-                  Users U
-                    JOIN UserTypes UT ON UT.usertypeid = U.typeid
-                    LEFT JOIN Employees E ON E.employeeid = U.employeeid
-                    LEFT JOIN Doctors D ON D.employeeid = U.employeeid
-                    LEFT JOIN Nurses N ON N.employeeid = U.employeeid
-                    LEFT JOIN Patients P ON P.patientid = U.patientid
+                  UsersWithInfoView
                 WHERE
-                  U.userid = :userid`
+                  userid = :userid`
 
-  connection.query(query, 
-    { 
+  connection.query(query,
+    {
       type: connection.QueryTypes.SELECT,
       replacements: {
-        userid: userid,
+        userid: userid
       }
     })
     .then(user => {
-      if (user.length === 1 ) {
+      if (user.length === 1) {
         res.json(user[0])
       } else {
         res.status(404).json({})
@@ -81,9 +55,8 @@ router.get('/users/:userid', function (req, res, next) {
     })
 })
 
-
 router.get('/appo/:getPname', function (req, res, next) {
-  console.log("get pname!" + req.params.getPname)
+  console.log('get pname!' + req.params.getPname)
   const pname = req.params.getPname
   const query = 'SELECT ename FROM Employees E JOIN AttendsAppointment AA ON AA.EmployeeID = E.EmployeeId JOIN Visits V ON V.VisitId = AA.VisitId JOIN Patients P ON P.PatientId = V.PatientId WHERE pname = \'' + req.params.getPname + '\''
 
@@ -91,7 +64,7 @@ router.get('/appo/:getPname', function (req, res, next) {
     {
       type: connection.QueryTypes.SELECT,
       replacements: {
-        pname: pname,
+        pname: pname
       }
     })
     .then(app => {

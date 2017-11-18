@@ -100,11 +100,10 @@ export default {
     return axios.get('/api/users/' + params.userid)
       .then((res) => {
         return {
-          user: res.data,
+          employeeid: res.data.id,
           show: (res.data.doctor_type !== null || res.data.nurse_type !== null),
-          isAdm: (res.data.usertypeid === 1),
-          isManager: (res.data.usertypeid === 2),
-          pname: ''
+          isAdm: res.data.isadmin,
+          isManager: res.data.ismanager
         }
       })
       .catch((e) => {
@@ -236,8 +235,8 @@ export default {
       var appointmentTime = this.getDateString()
 
       if (phoneNumber && appointmentTime && this.pnameApt.length > 0) {
-        console.log('Posting to employees: ' + '/api/employees/' + this.user.id + '/appointments')
-        axios.post('/api/employees/' + this.user.id + '/appointments', {
+        console.log('Posting to employees: ' + '/api/employees/' + this.employeeid + '/appointments')
+        axios.post('/api/employees/' + this.employeeid + '/appointments', {
           headers:
           {
             'Content-Type': 'application/json'

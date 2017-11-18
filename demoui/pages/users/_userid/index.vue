@@ -30,8 +30,8 @@ export default {
         return {
           user: res.data,
           show: (res.data.doctor_type !== null || res.data.nurse_type !== null),
-          isAdm: (res.data.usertypeid === 1),
-          isManager: (res.data.usertypeid === 2)
+          isAdm: res.data.isadmin,
+          isManager: res.data.ismanager
         }
       }).catch((e) => {
         error({ statusCode: 404, message: 'User not found' })
