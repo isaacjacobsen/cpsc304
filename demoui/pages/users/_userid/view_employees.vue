@@ -4,13 +4,20 @@
       <div class="subsection">
         <table style="margin-top: 3%; margin-bottom: 10%">
             <span class="subsection-title">List of Employees</span>
+            <br>
+            <span>Search By 3-digit Hospital Code</span>
+            <input type="text" :value="hospitalcode" v-model="hospitalcode">
+            <br>
+            <button type="button" class="button--grey" @click="searchByHospital">Search Hospital</button>
+            <br>
             <tbody>
             <tr class="employee-header">
                 <th>Employee Name</th>
-                <th>Employee ID</th>
+                <th>EID</th>
                 <th>Bimonthly Wage</th>
                 <th>YTD Earnings</th>
                 <th>Employee Type</th>
+                <th>Hospital</th>
             </tr>
             <tr v-for="(employee, index) in employees">
                 <td class="employee-name">{{ employee.ename }}</td>
@@ -18,6 +25,7 @@
                 <td class="employee-info">{{ employee.bimonthly_wage }}</td>
                 <td class="employee-info">{{ employee.yearlypay }}</td>
                 <td class="employee-info">{{ employee.employeetype }}</td>
+                <td class="employee-info">{{ employee.hname_short }}</td>
             </tr>
             </tbody>
         </table>
@@ -49,6 +57,12 @@ export default {
       })
   },
 
+  data () {
+    return {
+      hospitalcode: ''
+    }
+  },
+
   created: function () {
     this.getEmployees()
   },
@@ -61,6 +75,16 @@ export default {
         })
         .catch((e) => {
           console.log(e)
+        })
+    },
+    searchByHospital () {
+      return axios.get('/api/employees/' + this.hospitalcode)
+        .then((res) => {
+          this.employees = res.data
+        })
+        .catch((e) => {
+          this.employees = null
+          alert('No employees in hospital')
         })
     },
     updatePayroll () {

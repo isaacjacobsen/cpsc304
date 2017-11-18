@@ -25,6 +25,10 @@
                     <span class="employee-header">Position: </span>
                     <span class="employee-info">{{ employeetype }}</span>
                 </div>
+                <div>
+                    <span class="employee-header">Wards: </span>
+                    <span v-for="(ward, index) in wards" class="employee-info">{{ employeetype }}</span>
+                </div>
                 <button style="margin-top: 2%" type="button" class="button--grey" @click="getEmployee">Get Employee</button>
             </div>
         </table>
@@ -61,7 +65,8 @@ export default {
       employeetype: '',
       ename: '',
       yearlypay: '',
-      bimonthly_wage: ''
+      bimonthly_wage: '',
+      wards: []
     }
   },
 
