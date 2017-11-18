@@ -8,7 +8,7 @@
         <br><br>
         <button class="button--grey" @click="updateUser">Update Info</button>
         <button v-if="isAdm" class="button--grey" @click="addUser">Add User</button>
-        <button v-if="show" class="button--grey">Appointments</button>
+        <button v-if="show" class="button--grey" @click="doAppo"> Appointments</button>
         <button v-if="isManager" class="button--grey" @click="viewEmployees">View Employees</button>
         <button class="button--grey" @click="logoutUser">Logout</button>
       </div>
@@ -46,6 +46,9 @@ export default {
     },
     updateUser () {
       this.$nuxt.$router.replace({ path: `/users/${this.user.userid}/update` })
+    },
+    doAppo () {
+      this.$nuxt.$router.replace({ path: `/users/${this.user.userid}/appo` })
     },
     viewEmployees () {
       this.$nuxt.$router.replace({ path: `/users/${this.user.userid}/view_employees` })

@@ -81,6 +81,92 @@ router.get('/users/:userid', function (req, res, next) {
     })
 })
 
+
+router.get('/appo/:getPname', function (req, res, next) {
+  console.log("get pname!" + req.params.getPname)
+  const pname = req.params.getPname
+  const query = 'SELECT ename FROM Employees E JOIN AttendsAppointment AA ON AA.EmployeeID = E.EmployeeId JOIN Visits V ON V.VisitId = AA.VisitId JOIN Patients P ON P.PatientId = V.PatientId WHERE pname = \'' + req.params.getPname + '\''
+
+  connection.query(query,
+    {
+      type: connection.QueryTypes.SELECT,
+      replacements: {
+        pname: pname,
+      }
+    })
+    .then(app => {
+      console.log(app)
+      if (app.length > 0) {
+        res.json(app)
+      } else {
+        res.status(404).json({})
+      }
+    })
+})
+
+router.get('/showall', function (req, res, next) {
+  const query = 'SELECT ' +
+  'E.EmployeeId, ' +
+    'ename As EmployeeName, ' +
+    'CASE ' +
+  'WHEN D.doctor_type IS NOT NULL THEN \'Doctor\' ' +
+  'WHEN N.nurse_type IS NOT NULL THEN \'Nurse\' ' +
+  'ELSE \'Unknown\' ' +
+  'END AS EmployeeType, ' +
+  'COUNT(*) As AppointmentCount ' +
+  'FROM ' +
+  'Appointments A ' +
+  'JOIN Visits V ON V.VisitId = A.VisitId ' +
+  'JOIN AttendsAppointment AA ON AA.VisitId = A.VisitId AND AA.apt_datetime = A.apt_datetime ' +
+  'JOIN Employees E ON E.EmployeeId = AA.EmployeeId ' +
+  'LEFT JOIN Doctors D ON D.EmployeeId = E.EmployeeId ' +
+  'LEFT JOIN Nurses N ON N.EmployeeId = E.EmployeeId ' +
+  'GROUP BY ' +
+  'E.EmployeeId, ' +
+    'D.doctor_type, ' +
+   'N.nurse_type ' +
+  'ORDER BY ' +
+  'COUNT(*) DESC, ' +
+    'CASE ' +
+  'WHEN D.doctor_type IS NOT NULL THEN 2 ' +
+  'WHEN N.nurse_type IS NOT NULL THEN 1 ' +
+  'ELSE 0 ' +
+  'END DESC, ' +
+    'ename'
+
+  connection.query(query,
+    {
+      type: connection.QueryTypes.SELECT,
+    })
+    .then(app => {
+      console.log(app)
+      if (app.length > 0) {
+        res.json(app)
+      } else {
+        res.status(404).json({})
+      }
+    })
+})
+
+router.get('/addAppo', function (req, res, next) {
+  const query = '' // deleted
+  connection.query(query,
+    {
+      type: connection.QueryTypes.SELECT,
+      // deleted
+    })
+    .then(app => {
+      console.log(app)
+      if (app.length > 0) {
+        res.json(app)
+      } else {
+        res.status(404).json({})
+      }
+    })
+})
+
+
+
 router.post('/users/:userid/update', bodyParser.json(), function (req, res, next) {
   const userid = req.params.userid;
   const username = req.body.data.username;
