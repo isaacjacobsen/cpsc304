@@ -63,6 +63,7 @@ export default {
   methods: {
 
     submitUpdate () {
+      let self = this
       axios.post('/api/users/' + self.user.userid + '/update', {
         headers:
           {
