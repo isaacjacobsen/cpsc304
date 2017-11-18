@@ -200,6 +200,28 @@ router.get('/employees/emp_payroll/:employeeid', function (req, res, next) {
   })
 })
 
+router.get('/employees/:employeeid/emp_wards', function (req, res, next) {
+  const employeeid = req.params.employeeid
+  const query = `﻿SELECT w.ward_name, w.wardid, h.hname_short 
+FROM Wards w, Employees e, Worksatward ww, Hospitals h
+WHERE w.wardid=ww.wardid AND e.employeeid=ww.employeeid AND h.hospitalid=w.hospitalid
+AND e.employeeid=:employeeid ;`
+  connection.query(query,
+    {
+      type: connection.QueryTypes.SELECT,
+      replacements: {
+        employeeid: employeeid
+      }
+    })
+  .then(wards => {
+    if (wards.length >= 1) {
+      res.json(wards)
+    } else {
+      res.status(404).json({})
+    }
+  })
+})
+
 router.post('/employees/emp_payroll/:employeeid/update', bodyParser.json(), function (req, res, next) {
   const employeeid = req.params.employeeid
   const bimonthly_wage = req.body.data.bimonthly_wage
@@ -220,5 +242,25 @@ router.post('/employees/emp_payroll/:employeeid/update', bodyParser.json(), func
     res.send('/users/' + userid + '/view_employees')
   });
 });
+
+router.post('/employees/:employeeid/del_ward/:wardid', function (req, res, next) {
+  const employeeid = req.params.employeeid
+  const wardid = req.params.wardid
+
+  const query = `DELETE FROM WorksAtWard
+                 WHERE
+                    EmployeeId = :employeeid AND 
+                    WardId = :wardid ;`
+  connection.query(query,
+    {
+      type: connection.QueryTypes.DELETE,
+      replacements: {
+        employeeid: employeeid,
+        wardid: wardid
+      }
+    }).then(result => {
+      res.json({employeeid: employeeid})
+  })
+})
 
 export default router

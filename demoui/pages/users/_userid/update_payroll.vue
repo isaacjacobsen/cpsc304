@@ -3,7 +3,7 @@
     <div class="content">
       <div class="subsection">
         <table style="margin-top: 3%; margin-bottom: 10%">
-            <thead class="subsection-title">Update Employee Wage</thead>
+            <thead class="subsection-title">Update Employee Info</thead>
             <div style="margin-top: 5%">
                 <div>
                     <span class="employee-header">Name: </span>
@@ -27,7 +27,10 @@
                 </div>
                 <div>
                     <span class="employee-header">Wards: </span>
-                    <span v-for="(ward, index) in wards" class="employee-info">{{ employeetype }}</span>
+                    <div style="margin-left: 15%" v-for="(ward, index) in wards" class="employee-info">
+                        <span>{{ ward.ward_name }} - {{ ward.hname_short}}</span>
+                        <button v-if="(ward.err !== 'no wards')" style="margin-left: 20%" @click="delFromWard(ward.wardid)">Remove From Ward</button>
+                    </div>
                 </div>
                 <button style="margin-top: 2%" type="button" class="button--grey" @click="getEmployee">Get Employee</button>
             </div>
@@ -72,7 +75,7 @@ export default {
 
   methods: {
     getEmployee () {
-      return axios.get(`/api/employees/emp_payroll/${this.employeeid}`)
+      axios.get(`/api/employees/emp_payroll/${this.employeeid}`)
         .then((res) => {
           if (res.statusCode !== 404) {
             this.employee = res.data
@@ -91,6 +94,28 @@ export default {
           this.yearlypay = ''
           this.bimonthly_wage = ''
         })
+      axios.get(`/api/employees/${this.employeeid}/emp_wards`)
+        .then((res) => {
+          if (res.statusCode !== 404) {
+            this.wards = res.data
+          }
+        }).catch((e) => {
+          this.wards = [{err: 'no wards'}]
+        })
+    },
+
+    delFromWard (wardid) {
+      axios.post('/api/employees/' + this.employeeid + '/del_ward/' + wardid,
+        {
+          headers:
+            {
+              'Content-Type': 'application/json'
+            }
+        }
+      ).then((res) => {
+        this.employeeid = res.data.employeeid
+        this.getEmployee()
+      })
     },
 
     updateWage () {
