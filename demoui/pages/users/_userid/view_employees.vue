@@ -5,12 +5,13 @@
         <table style="margin-top: 3%; margin-bottom: 10%">
             <span class="subsection-title">List of Employees</span>
             <br>
-            <span>Search By 3-digit Hospital Code</span>
-            <input type="text" :value="hospitalcode" v-model="hospitalcode">
+            <div style="margin-top: 3%">
+                <h3>Search By 3-digit Hospital Code</h3>
+                <input type="text" :value="hospitalcode" v-model="hospitalcode">
+                <button type="button" class="button--grey" @click="searchByHospital">Search Hospital</button>
+            </div>
             <br>
-            <button type="button" class="button--grey" @click="searchByHospital">Search Hospital</button>
-            <br>
-            <tbody>
+            <tbody v-if="showByHospital">
             <tr class="employee-header">
                 <th>Employee Name</th>
                 <th>EID</th>
@@ -26,6 +27,29 @@
                 <td class="employee-info">{{ employee.yearlypay }}</td>
                 <td class="employee-info">{{ employee.employeetype }}</td>
                 <td class="employee-info">{{ employee.hname_short }}</td>
+            </tr>
+            </tbody>
+            <div style="margin-top: 3%">
+                <h3>Search By Ward ID</h3>
+                <input type="text" :value="wardid" v-model="wardid">
+                <button type="button" class="button--grey" @click="searchByWard">Search Ward</button>
+            </div>
+            <tbody v-if="showByWard">
+            <tr class="employee-header">
+                <th>Employee Name</th>
+                <th>EID</th>
+                <th>Bimonthly Wage</th>
+                <th>YTD Earnings</th>
+                <th>Employee Type</th>
+                <th>Ward</th>
+            </tr>
+            <tr v-for="(employee, index) in employees">
+                <td class="employee-name">{{ employee.ename }}</td>
+                <td class="employee-info">{{ employee.employeeid }}</td>
+                <td class="employee-info">{{ employee.bimonthly_wage }}</td>
+                <td class="employee-info">{{ employee.yearlypay }}</td>
+                <td class="employee-info">{{ employee.employeetype }}</td>
+                <td class="employee-info">{{ employee.ward_name }} - {{ employee.hname_short}}</td>
             </tr>
             </tbody>
         </table>
@@ -59,7 +83,10 @@ export default {
 
   data () {
     return {
-      hospitalcode: ''
+      showByHospital: false,
+      showByWard: false,
+      hospitalcode: '',
+      wardid: ''
     }
   },
 
@@ -78,13 +105,27 @@ export default {
         })
     },
     searchByHospital () {
-      return axios.get('/api/employees/' + this.hospitalcode)
+      this.showByHospital = true
+      this.showByWard = false
+      return axios.get('/api/employees/hos/' + this.hospitalcode)
         .then((res) => {
           this.employees = res.data
         })
         .catch((e) => {
           this.employees = null
           alert('No employees in hospital')
+        })
+    },
+    searchByWard () {
+      this.showByHospital = false
+      this.showByWard = true
+      return axios.get('/api/employees/ward/' + this.wardid)
+        .then((res) => {
+          this.employees = res.data
+        })
+        .catch((e) => {
+          this.employees = null
+          alert('No employees in ward')
         })
     },
     updatePayroll () {

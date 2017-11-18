@@ -49,7 +49,7 @@ ORDER BY
     })
 })
 
-router.get('/employees/:hospitalcode', function (req, res, next) {
+router.get('/employees/hos/:hospitalcode', function (req, res, next) {
   const hospitalcode = req.params.hospitalcode
   const query = `SELECT
     ename, e.employeeid, CAST((bimonthly_wage) AS NUMERIC(36,2)), ew.hname_short,
@@ -90,6 +90,51 @@ ORDER BY
       } else {
         res.status(404).json({err: 'no employees'})
       }
+  })
+})
+
+router.get('/employees/ward/:wardid', function (req, res, next) {
+  const wardid = req.params.wardid
+  const query = `SELECT
+    ename, e.employeeid, ew.hname_short, ew.ward_name,
+    CAST((bimonthly_wage) AS NUMERIC(36,2)),
+    CAST((YearlyPay) AS NUMERIC(36,2)),
+    CASE
+        WHEN D.doctor_type IS NOT NULL THEN 'Doctor'
+        WHEN N.nurse_type IS NOT NULL THEN 'Nurse'
+        ELSE 'Unknown'
+    END AS EmployeeType
+FROM
+    (SELECT
+        EmployeeId,
+        SUM(pay_amt) As YearlyPay
+    FROM
+        Payroll
+    WHERE
+        (SELECT EXTRACT(YEAR FROM pay_date)) = '2017'
+    GROUP BY
+        EmployeeId) YP
+    JOIN Employees E ON E.EmployeeId = YP.EmployeeId
+    LEFT JOIN Doctors D On D.EmployeeId = E.EmployeeId
+    LEFT JOIN Nurses N On N.EmployeeId = E.EmployeeId
+    JOIN (SELECT DISTINCT e.employeeid, h.hname_short, w.ward_name
+         FROM Employees e, Wards w, Worksatward ww, Hospitals h
+         WHERE e.employeeid=ww.employeeid AND w.wardid=ww.wardid AND w.hospitalid=h.hospitalid AND w.wardid=:wardid)
+         AS EW ON EW.employeeid = E.employeeid
+ORDER BY
+    e.employeeid ASC`
+  connection.query(query,
+    {
+      type: connection.QueryTypes.SELECT,
+      replacements: {
+        wardid: wardid
+      }
+    }).then(employees => {
+    if (employees.length >= 1 ) {
+      res.json(employees)
+    } else {
+      res.status(404).json({err: 'no employees'})
+    }
   })
 })
 
