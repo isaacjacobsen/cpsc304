@@ -21,7 +21,7 @@ CREATE TABLE Hospitals(
     hospitalid SERIAL UNIQUE,
     hname_short VARCHAR(4) NOT NULL UNIQUE,
     hname_full VARCHAR(32) NOT NULL,
-    address VARCHAR(64) NOT NULL,S
+    address VARCHAR(64) NOT NULL,
     postal_code VARCHAR(6) NOT NULL,
     phone_num VARCHAR(20) NOT NULL,
     PRIMARY KEY (hospitalid),
