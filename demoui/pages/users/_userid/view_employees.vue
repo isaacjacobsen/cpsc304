@@ -3,7 +3,7 @@
     <div class="content">
       <div class="subsection">
         <table style="margin-top: 3%; margin-bottom: 10%">
-            <thead class="subsection-title">List of Employees</thead>
+            <span class="subsection-title">List of Employees</span>
             <tbody>
             <tr class="employee-header">
                 <th>Employee Name</th>
@@ -21,7 +21,7 @@
             </tr>
             </tbody>
         </table>
-        <button type="button" class="button--grey">Update</button>
+        <button type="button" class="button--grey" @click="updatePayroll">Update Employee</button>
         <button type="button" class="button--grey" @click="goBack">Back</button>
       </div>
     </div>
@@ -58,13 +58,14 @@ export default {
       return axios.get('/api/employees')
         .then((res) => {
           this.employees = res.data
-          console.log(this.employees)
         })
         .catch((e) => {
           console.log(e)
         })
     },
-
+    updatePayroll () {
+      this.$nuxt.$router.replace({ path: `/users/${this.user.userid}/update_payroll` })
+    },
     goBack () {
       this.$nuxt.$router.replace({ path: `/users/${this.user.userid}` })
     }
