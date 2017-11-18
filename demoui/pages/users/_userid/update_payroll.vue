@@ -12,10 +12,12 @@
                 <div>
                     <span class="employee-header">Employee ID: </span>
                     <input style="margin-left: 34px" type="number" :value="employeeid" v-model="employeeid">
+                    <button style="margin-top: 2%" type="button" class="button--grey" @click="getEmployee">Get Employee</button>
                 </div>
                 <div>
                     <span class="employee-header">Bimonthly Wage: </span>
                     <input v-if="(bimonthly_wage !== '')" type="number" :value="bimonthly_wage" v-model="bimonthly_wage">
+                    <button type="button" class="button--grey" @click="updateWage">Update Wage</button>
                 </div>
                 <div>
                     <span class="employee-header">YTD Earnings: </span>
@@ -31,12 +33,20 @@
                         <span>{{ ward.ward_name }} - {{ ward.hname_short}}</span>
                         <button v-if="(ward.err !== 'no wards')" style="margin-left: 20%" @click="delFromWard(ward.wardid)">Remove From Ward</button>
                     </div>
+                    <div v-if="(ename !== '')" style="margin-left: 10%">
+                        <h4>Add to Ward</h4>
+                        <select v-model="newWard">
+                            <option disabled value="">Select Ward To Add</option>
+                            <option v-for="(ward, index) in allWards" v-bind:value="ward.wardid">
+                                {{ ward.ward_name }} - {{ ward.hname_short}}
+                            </option>
+                        </select>
+                        <button @click="addToWard">Add Ward</button>
+                    </div>
                 </div>
-                <button style="margin-top: 2%" type="button" class="button--grey" @click="getEmployee">Get Employee</button>
+                <button style="margin-top: 2%" type="button" class="button--grey" @click="goBack">Back</button>
             </div>
         </table>
-        <button type="button" class="button--grey" @click="updateWage">Update Employee</button>
-        <button type="button" class="button--grey" @click="goBack">Back</button>
       </div>
     </div>
   </section>
@@ -69,11 +79,35 @@ export default {
       ename: '',
       yearlypay: '',
       bimonthly_wage: '',
-      wards: []
+      wards: [],
+      allWards: [],
+      newWard: ''
     }
   },
 
   methods: {
+    getAllWards () {
+      axios.get(`/api/employees/${this.employeeid}/hos_wards`)
+        .then((res) => {
+          this.allWards = res.data
+        }).catch((e) => {
+          this.allWards = [{err: 'no available wards'}]
+        })
+    },
+    addToWard () {
+      axios.post('/api/employees/' + this.employeeid + '/add_ward/' + this.newWard, {
+        headers:
+          {
+            'Content-Type': 'application/json'
+          }
+      }).then((res) => {
+        // res.data should contain the url for redirecting... bad practice
+        this.employeeid = res.data.employeeid
+        this.getEmployee()
+      }).catch((e) => {
+        console.log(e)
+      })
+    },
     getEmployee () {
       axios.get(`/api/employees/emp_payroll/${this.employeeid}`)
         .then((res) => {
@@ -102,6 +136,7 @@ export default {
         }).catch((e) => {
           this.wards = [{err: 'no wards'}]
         })
+      this.getAllWards()
     },
 
     delFromWard (wardid) {

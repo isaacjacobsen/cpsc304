@@ -93,6 +93,28 @@ ORDER BY
   })
 })
 
+router.get('/employees/:employeeid/hos_wards', function (req, res, next) {
+  const employeeid = req.params.employeeid
+  const query = `﻿SELECT w.wardid, w.ward_name, h.hname_short
+                  FROM Wards w
+                  JOIN Hospitals h ON w.hospitalid=h.hospitalid
+                  WHERE wardid NOT IN 
+                    (SELECT wardid FROM Worksatward WHERE employeeid=:employeeid) ;`
+  connection.query(query,
+    {
+      type: connection.QueryTypes.SELECT,
+      replacements: {
+        employeeid: employeeid
+      }
+    }).then(wards => {
+    if (wards.length >= 1 ) {
+      res.json(wards)
+    } else {
+      res.status(404).json({err: 'no available wards'})
+    }
+  })
+})
+
 router.get('/employees/ward/:wardid', function (req, res, next) {
   const wardid = req.params.wardid
   const query = `SELECT
@@ -305,6 +327,26 @@ router.post('/employees/:employeeid/del_ward/:wardid', function (req, res, next)
       }
     }).then(result => {
       res.json({employeeid: employeeid})
+  })
+})
+
+router.post('/employees/:employeeid/add_ward/:wardid', function (req, res, next) {
+  const employeeid = req.params.employeeid
+  const wardid = req.params.wardid
+
+  const query = `INSERT INTO WorksAtWard (employeeid, wardid)
+                 VALUES (:employeeid, :wardid)`
+  connection.query(query,
+    {
+      type: connection.QueryTypes.INSERT,
+      replacements: {
+        employeeid: employeeid,
+        wardid: wardid
+      }
+    }).then(result => {
+    res.json({employeeid: employeeid})
+  }).catch((e) => {
+    res.status(404)
   })
 })
 
