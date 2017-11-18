@@ -1,4 +1,4 @@
-﻿/* This is for adding an appointment for a specific user currently at the hospital */
+/* #1: This is for adding an appointment for a specific user currently at the hospital */
 BEGIN TRANSACTION;
 DROP TABLE IF EXISTS PatientVisit;
 DROP TABLE IF EXISTS CurrentTime;
@@ -36,7 +36,7 @@ VALUES((SELECT EmployeeId FROM DoctorAtAppointment), (SELECT visitid FROM Patien
 
 ROLLBACK;
 
-/* This deletes an employee from a specific ward */
+/* #2: This deletes an employee from a specific ward */
 BEGIN TRANSACTION;
 
 DELETE FROM WorksAtWard
@@ -58,7 +58,7 @@ WHERE
 
 ROLLBACK;
 
-/* This updates a user's phone number */
+/* #3: This updates a user's phone number */
 BEGIN TRANSACTION;
 
 UPDATE Patients
@@ -71,7 +71,7 @@ SELECT * FROM Patients;
 
 ROLLBACK;
 
-/* This gets all the patients' names admitted to VGH this month */
+/* #4: This gets all the patients' names admitted to VGH this month */
 SELECT DISTINCT pname
 FROM
     Visits V
@@ -80,9 +80,9 @@ FROM
 WHERE
     (SELECT EXTRACT(YEAR FROM admitted_datetime)) = (SELECT EXTRACT(YEAR FROM current_timestamp))
     AND (SELECT EXTRACT(MONTH FROM admitted_datetime)) = (SELECT EXTRACT(MONTH FROM current_timestamp))
-    AND H.hname_full = 'Vancouver General Hospital'
+    AND H.hname_short = 'VGH'
 
-/* This gets the names of the employees who have had an appointment with "Adam Armstrong" */
+/* #5: This gets the names of the employees who have had an appointment with "Adam Armstrong" */
 SELECT ename
 FROM
     Employees E
@@ -92,7 +92,7 @@ FROM
 WHERE
     pname = 'Adam Armstrong'
 
-/* This gets the names of all employees who work at a specific ward */
+/* #6: This gets the names of all employees who work at a specific ward */
 SELECT
     ename,
     CASE
@@ -111,7 +111,7 @@ WHERE
     hname_full = 'Vancouver General Hospital'
     AND ward_name = 'ICU'
 
-/* This gets the yearly pay for each employee */
+/* #7: This gets the yearly pay for each employee */
 SELECT
     ename,
     YearlyPay,
@@ -136,8 +136,8 @@ FROM
 ORDER BY
     YearlyPay DESC
 
-/* Find names of patients who have been admitted to VGH since september 2017 */
-SELECT DISTINCT
+/* #8: Find names of patients who haven't checked out yet of hospital (use short name) (No discharge date) */
+/*SELECT DISTINCT
     pname As PatientName
 FROM
     Visits V
@@ -146,9 +146,9 @@ FROM
 WHERE
     (((SELECT EXTRACT(MONTH FROM admitted_datetime)) >= 9 AND (SELECT EXTRACT(YEAR FROM admitted_datetime)) >= 2017)
     OR (SELECT EXTRACT(YEAR FROM admitted_datetime)) > 2017)
-    AND H.hname_full = 'Vancouver General Hospital'
+    AND H.hname_full = 'Vancouver General Hospital'*/
 
-/* This finds the cardiologists that work in the same hospital as "Yoshi Yamaha" */
+/* #9: This finds the cardiologists that work in the same hospital as "Yoshi Yamaha" */
 SELECT DISTINCT
     E2.EmployeeId,
     ename
@@ -172,7 +172,7 @@ WHERE
         WHERE
             ename = 'Yoshi Yamaha')
 
-/* Number of appointments by each employee */
+/* #10: Number of appointments by each employee */
 SELECT
     E.EmployeeId,
     ename As EmployeeName,
