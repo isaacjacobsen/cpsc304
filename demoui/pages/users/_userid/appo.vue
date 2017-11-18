@@ -82,6 +82,7 @@
             </tbody>
           </table>
         </div>
+        <button style="margin: 5px 0 0 0" type="button" class="button--grey" @click="goBack">Back</button>
       </div>
     </form>
 
@@ -100,6 +101,7 @@ export default {
     return axios.get('/api/users/' + params.userid)
       .then((res) => {
         return {
+          userid: res.data.userid,
           employeeid: res.data.id,
           show: (res.data.doctor_type !== null || res.data.nurse_type !== null),
           isAdm: res.data.isadmin,
@@ -259,6 +261,9 @@ export default {
             }
           })
       }
+    },
+    goBack () {
+      this.$nuxt.$router.replace({ path: `/users/${this.userid}` })
     }
   },
 
