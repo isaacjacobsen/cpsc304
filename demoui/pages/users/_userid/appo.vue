@@ -45,16 +45,38 @@
       <br>
       <div style="margin: 10px 0;">
         <ul>
-          <li><span class="user-type" style="color: black">Visit ID: </span>
+          <li>
+            <span class="user-type" style="color: black">Patient Name:</span>
+            <input type="text" style="margin-right: 80%" v-model="pnameApt"/>
             <br>
-            <input type="text" style="margin-right: 80%" v-model="pid"/><br></li>
-          <li><span class="user-type"  style="color: black">Appointment time: </span>
-            <input type="text" style="margin-right: 80%" v-model="appTime"/><br></li>
-          <li><span class="user-type"  style="color: black">Writeup Link: </span>
-            <input type="text" style="margin-right: 80%" v-model="link"/></li>
+          </li>
+          <li>
+            <span class="user-type"  style="color: black">Patient Phone Number:</span>
+            <br>
+            <span style="color: black">
+              (<input type="text" style="width: 30px" v-model="pphone[0]"/>)-
+              <input type="text" style="width: 30px" v-model="pphone[1]"/>-
+              <input type="text" style="width: 40px" v-model="pphone[2]"/>
+            </span>
+            <br>
+          </li>
+          <li>
+            <span class="user-type"  style="color: black">Appointment time:</span>
+            <br>
+            <span style="color: black">dd / mm / yyyy&nbsp;&nbsp;hh: mm</span>
+            <br>
+            <span style="color: black">
+              <input type="text" style="width: 20px" v-model="aptTime[0]"/> /
+              <input type="text" style="width: 26px" v-model="aptTime[1]"/> /
+              <input type="text" style="width: 35px" v-model="aptTime[2]"/>&nbsp;
+              <input type="text" style="width: 20px" v-model="aptTime[3]"/>:
+              <input type="text" style="width: 26px" v-model="aptTime[4]"/>
+            </span>
+            <br>
+          </li>
         </ul>
         <br>
-        <button type="button" class="button--grey" @click="bookNew">Book New Appointment</button>
+        <button type="button" class="button--grey" @click="bookNew">Add Appointment</button>
       </div>
 
       <hr>
@@ -94,12 +116,71 @@ export default {
       showlist: false,
       res: [],
       allRes: [],
-      pid: '',
-      appTime: '',
-      link: ''
+      pnameApt: '',
+      pphone: ['', '', ''],
+      aptTime: []
     }
   },
   methods: {
+    getPhoneString () {
+      if (!isNaN(this.pphone[0]) && !isNaN(this.pphone[1]) && !isNaN(this.pphone[2]) && String(this.pphone[0]).length.toString() === '3' && String(this.pphone[1]).length.toString() === '3' && String(this.pphone[2]).length.toString() === '4') {
+        return '(' + String(this.pphone[0]) + ')-' + String(this.pphone[1]) + '-' + String(this.pphone[2])
+      }
+
+      alert('Please enter valid phone number')
+      return null
+    },
+    getDateString () {
+      for (var i in this.aptTime) {
+        if (isNaN(this.aptTime[i])) {
+          alert('Please enter valid appointment time')
+          return null
+        }
+
+        if (i === '2' && String(this.aptTime[i]).length.toString() !== '4') {
+          alert('Please enter valid appointment time length1 ' + i + ': ' + String(this.aptTime[i]).length)
+          return null
+        }
+
+        if (i !== '2' && String(this.aptTime[i]).length.toString() !== '2') {
+          alert('Please enter valid appointment time length2 ' + i + ': ' + String(this.aptTime[i]).length)
+          return null
+        }
+      }
+
+      var day = Number(this.aptTime[0])
+      var month = Number(this.aptTime[1])
+      var year = Number(this.aptTime[2])
+      var hour = Number(this.aptTime[3])
+      var minute = Number(this.aptTime[4])
+
+      if (month <= Number(0.9) || month >= Number(12.1)) {
+        alert('Month is invalid')
+        return null
+      }
+
+      if (day <= Number(0.9) || day >= Number(31.1)) {
+        alert('Day is invalid')
+        return null
+      }
+
+      if (year <= Number(2016)) {
+        alert('Year is invalid')
+        return null
+      }
+
+      if (hour <= Number(-0.1) || hour >= Number(23.1)) {
+        alert('Hour is invalid')
+        return null
+      }
+
+      if (minute <= Number(-0.1) || minute >= Number(59.1)) {
+        alert('Hour is invalid')
+        return null
+      }
+
+      return String(this.aptTime[0]) + '/' + String(this.aptTime[1]) + '/' + String(this.aptTime[2]) + ' ' + String(this.aptTime[3]) + ':' + String(this.aptTime[4])
+    },
     searchPname () {
       axios.get('/api/appo/' + this.pname).then((res) => {
         // res.data should contain the url for redirecting... bad practice
@@ -133,28 +214,34 @@ export default {
         })
     },
     bookNew () {
-      axios.post('/api/addAppo/', {
-        headers:
-        {
-          'Content-Type': 'application/json'
-        },
-        data:
+      var phoneNumber = this.getPhoneString()
+      var appointmentTime = this.getDateString()
+
+      if (phoneNumber && appointmentTime && this.pnameApt.length > 0) {
+        console.log('Posting to employees: ' + '/api/employees/' + this.user.id + '/appointments')
+        axios.post('/api/employees/' + this.user.id + '/appointments', {
+          headers:
           {
-            pid: this.pid,
-            appTime: this.appTime,
-            link: this.link
-          }}).then((res) => {
-        console.log(res)
-        console.log(res.data)
-        alert('Appintment Booked!')
-      })
-        .catch(error => {
-          if (error.response) {
-            // Response has been received from the server
-            alert('Error')
-            console.log(error.response.data)
-          }
+            'Content-Type': 'application/json'
+          },
+          data:
+            {
+              pnameApt: this.pnameApt,
+              pphone: phoneNumber,
+              aptTime: appointmentTime
+            }}).then((res) => {
+          console.log(res)
+          console.log(res.data)
+          alert('Appintment Booked!')
         })
+          .catch(error => {
+            if (error.response) {
+              // Response has been received from the server
+              alert('Error')
+              console.log(error.response.data)
+            }
+          })
+      }
     }
   },
 

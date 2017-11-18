@@ -41,7 +41,7 @@ ORDER BY
       }
     })
     .then(employees => {
-      if (employees.length >= 1 ) {
+      if (employees.length >= 1) {
         res.json(employees)
       } else {
         res.status(404).json({err: 'no employees'})
@@ -91,6 +91,71 @@ ORDER BY
         res.status(404).json({err: 'no employees'})
       }
   })
+})
+
+router.post('/employees/:employeeid/appointments', bodyParser.json(), function (req, res, next) {
+  const employeeId = req.params.employeeid
+  const patientName = req.body.data.pnameApt
+  const patientPhone = req.body.data.pphone
+  const aptTime = req.body.data.aptTime
+
+  const getVisitIdQuery = `
+    SELECT
+      visitid
+    FROM
+        Visits
+    WHERE
+        discharged_datetime IS NULL
+        AND patientid = (SELECT patientid
+                FROM Patients
+                WHERE
+                    pname = :patientName
+                    AND phone_num = :patientPhone)`
+  const insertIntoAppointments = `
+    INSERT INTO Appointments
+    VALUES (:visitId, :aptTime)`
+  const insertIntoAttendsAppointment = `
+    INSERT INTO AttendsAppointment
+    VALUES (:employeeId, :visitId, :aptTime)`
+
+  connection.query(getVisitIdQuery,
+    {
+      type: connection.QueryTypes.SELECT,
+      replacements: {
+        patientName: patientName,
+        patientPhone: patientPhone
+      }
+    })
+    .then(user => {
+      if (user.length === 1) {
+        var visitId = user[0].visitid
+
+        connection.query(insertIntoAppointments,
+          {
+            type: connection.QueryTypes.INSERT,
+            replacements: {
+              visitId: visitId,
+              aptTime: aptTime
+            }
+          })
+          .then(x => {
+            connection.query(insertIntoAttendsAppointment,
+              {
+                type: connection.QueryTypes.INSERT,
+                replacements: {
+                  employeeId: employeeId,
+                  visitId: visitId,
+                  aptTime: aptTime
+                }
+              })
+              .then(
+                res.status(200).send()
+              )
+          })
+      } else {
+        res.status(404).json({})
+      }
+    })
 })
 
 router.get('/employees/emp_payroll/:employeeid', function (req, res, next) {
