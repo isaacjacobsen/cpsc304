@@ -6,51 +6,37 @@
       <div style="margin: 10px 0;">
         <span style="color: #47494e; font-weight: 600; font-size: 40px; padding: 0 0 30px 0;">Appointment Centre<br><br></span>
 
-        <table class="paleBlueRows"  v-if="allRes && allRes.length">
-          <tbody>
-          <tr>
-            <th>Appointment<br>Count</th>
-            <th>Employee<br>ID</th>
-            <th>Employee<br>Name</th>
-            <th>Employee<br>Type</th>
-          </tr>
-          <tr v-for="items in allRes">
-            <td class="">{{ items.appointmentcount }}</td>
-            <td class="">{{ items.employeeid }}</td>
-            <td class="">{{ items.employeename }}</td>
-            <td class="">{{ items.employeetype }}</td>
-          </tr>
-          </tbody>
-        </table>
+        <div>
+          <span style="cursor: pointer" class="user-username" @click="togglePatientSearch">Search Appointments For Patient</span>
+          <br>
+          <div v-if="showPatientSearch">
+            <input v-if="showPatientSearch" type="text" v-model="pname"/>
+            <br>
+            <button style="margin: 5px 0 0 0" v-if="showPatientSearch" type="button" class="button--grey" @click="searchPname()">Search</button>
+            <table class="paleBlueRows" v-if="res && res.length">
+              <tbody>
+              <tr>
+                <th>Name</th>
+              </tr>
+              <tr v-for="items in res">
+                <td>{{ items.ename }}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <div>
+          <br>
+          <span style="cursor: pointer" class="user-username" @click="toggleAddAppointment
+    ">Add An Appointment</span>
+          <br>
+          <div v-if="showAddAppointment" style="margin: 10px 0;">
 
-        <span class="user-username">Patient's Name: <br></span>
-        <input type="text" v-model="pname"/>
-        <button type="button" class="button--grey" @click="searchPname()">Search</button>
-
-
-        <table class="paleBlueRows" v-if="res && res.length">
-          <span style="color: black; !important;">List of Employees that have appointment with patient {{pname}}</span>
-          <tbody>
-          <tr>
-            <th>Name</th>
-          </tr>
-          <tr v-for="items in res">
-            <td>{{ items.ename }}</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-      <hr>
-      <span class="user-username" >Add an appointment: <br></span>
-      <br>
-      <div style="margin: 10px 0;">
-        <ul>
-          <li>
             <span class="user-type" style="color: black">Patient Name:</span>
             <input type="text" style="margin-right: 80%" v-model="pnameApt"/>
-            <br>
-          </li>
-          <li>
+            <br><br>
+
             <span class="user-type"  style="color: black">Patient Phone Number:</span>
             <br>
             <span style="color: black">
@@ -58,12 +44,9 @@
               <input type="text" style="width: 30px" v-model="pphone[1]"/>-
               <input type="text" style="width: 40px" v-model="pphone[2]"/>
             </span>
-            <br>
-          </li>
-          <li>
+            <br><br>
+
             <span class="user-type"  style="color: black">Appointment time:</span>
-            <br>
-            <span style="color: black">dd / mm / yyyy&nbsp;&nbsp;hh: mm</span>
             <br>
             <span style="color: black">
               <input type="text" style="width: 20px" v-model="aptTime[0]"/> /
@@ -72,17 +55,35 @@
               <input type="text" style="width: 20px" v-model="aptTime[3]"/>:
               <input type="text" style="width: 26px" v-model="aptTime[4]"/>
             </span>
-            <br>
-          </li>
-        </ul>
-        <br>
-        <button type="button" class="button--grey" @click="bookNew">Add Appointment</button>
-      </div>
+            <br><br>
 
-      <hr>
-      <span class="user-username" >Display all employees who have appointments: <br></span>
+            <button style="margin: 5px 0 0 0;" type="button" class="button--grey" @click="bookNew">Add Appointment</button>
+            
+          </div>
+        </div>
+
+        <div>
+          <br>
+          <span style="cursor: pointer" class="user-username" @click="showAll">Show All Appointments<br></span>
+          <table class="paleBlueRows"  v-if="allRes && allRes.length && showAllAppointments">
+            <tbody>
+            <tr>
+              <th>Appointment<br>Count</th>
+              <th>Employee<br>ID</th>
+              <th>Employee<br>Name</th>
+              <th>Employee<br>Type</th>
+            </tr>
+            <tr v-for="items in allRes">
+              <td class="">{{ items.appointmentcount }}</td>
+              <td class="">{{ items.employeeid }}</td>
+              <td class="">{{ items.employeename }}</td>
+              <td class="">{{ items.employeetype }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </form>
-    <button type="button" class="button--grey" @click="showAll">Show All Appointments</button>
 
 
     </div>
@@ -118,10 +119,23 @@ export default {
       allRes: [],
       pnameApt: '',
       pphone: ['', '', ''],
-      aptTime: []
+      aptTime: [],
+      showPatientSearch: false,
+      showAddAppointment: false,
+      showAllAppointments: false
     }
   },
   methods: {
+    toggleAddAppointment () {
+      this.showAddAppointment = !this.showAddAppointment
+      this.showPatientSearch = false
+      this.showAllAppointments = false
+    },
+    togglePatientSearch () {
+      this.showPatientSearch = !this.showPatientSearch
+      this.showAddAppointment = false
+      this.showAllAppointments = false
+    },
     getPhoneString () {
       if (!isNaN(this.pphone[0]) && !isNaN(this.pphone[1]) && !isNaN(this.pphone[2]) && String(this.pphone[0]).length.toString() === '3' && String(this.pphone[1]).length.toString() === '3' && String(this.pphone[2]).length.toString() === '4') {
         return '(' + String(this.pphone[0]) + ')-' + String(this.pphone[1]) + '-' + String(this.pphone[2])
@@ -199,6 +213,10 @@ export default {
         })
     },
     showAll () {
+      this.showAllAppointments = !this.showAllAppointments
+      this.showPatientSearch = false
+      this.showAddAppointment = false
+
       axios.get('/api/showall').then((res) => {
         // res.data should contain the url for redirecting... bad practice
         // self.$nuxt.$router.replace({ path: res.data })
