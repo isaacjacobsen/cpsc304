@@ -1,3 +1,5 @@
+DROP VIEW IF EXISTS userswithinfoview;
+
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS usertypes;
 
@@ -203,3 +205,64 @@ CREATE TABLE Users(
             ON DELETE CASCADE
             ON UPDATE CASCADE
 );
+
+CREATE VIEW UsersWithInfoView AS
+SELECT
+    userid,
+    username,
+    password,
+    U.name AS loginname,
+    usertypename,
+    CASE
+    	WHEN U.typeid = 1 THEN TRUE
+        ELSE FALSE
+    End AS isadmin,
+    CASE
+    	WHEN U.typeid = 2 THEN TRUE
+        ELSE FALSE
+    END AS ismanager,
+    CASE
+    	WHEN U.typeid = 3 THEN TRUE
+        WHEN U.typeid = 4 THEN TRUE
+        ELSE FALSE
+    END AS isemployee,
+    CASE
+    	WHEN U.typeid = 5 THEN TRUE
+        ELSE FALSE
+    END AS ispatient,
+    CASE
+        WHEN D.employeeid IS NOT NULL THEN D.employeeid
+        WHEN N.employeeid IS NOT NULL THEN N.employeeid
+        WHEN P.patientid IS NOT NULL THEN P.patientid
+        ELSE NULL
+    END AS id,
+    CASE
+    	WHEN E.ename IS NOT NULL THEN E.ename
+        WHEN P.pname IS NOT NULL THEN P.pname
+       	ELSE NULL
+    END AS name,
+    doctor_type,
+    md_license_num,
+    nurse_type,
+    CASE
+    	WHEN E.phone_num IS NOT NULL THEN E.phone_num
+        WHEN P.phone_num IS NOT NULL THEN P.phone_num
+    	ELSE NULL
+    END AS phone_num,
+    CASE
+    	WHEN E.address IS NOT NULL THEN E.address
+        WHEN P.address IS NOT NULL THEN P.address
+    	ELSE NULL
+    END AS address,
+    CASE
+    	WHEN E.postal_code IS NOT NULL THEN E.postal_code
+        WHEN P.postal_code IS NOT NULL THEN P.postal_code
+    	ELSE NULL
+    END AS postal_code
+FROM
+    Users U
+    JOIN UserTypes UT ON UT.usertypeid = U.typeid
+    LEFT JOIN Employees E ON E.employeeid = U.employeeid
+    LEFT JOIN Doctors D ON D.employeeid = U.employeeid
+    LEFT JOIN Nurses N ON N.employeeid = U.employeeid
+    LEFT JOIN Patients P ON P.patientid = U.patientid;
