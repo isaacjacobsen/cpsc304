@@ -5,7 +5,7 @@
         <form style="margin: 15px 15px;">
             <div style="margin: 10px 0;">
                 <span class="user-name">Name: </span>
-                <input type="text" :value="user.name" v-model="user.name">
+                <input type="text" :value="user.loginname" v-model="user.loginname">
             </div>
             <div style="margin: 10px 0;">
               <span class="user-username">Username: </span>
@@ -74,7 +74,7 @@ export default {
             userid: self.user.userid,
             username: self.user.username,
             password: self.user.password,
-            name: self.user.name,
+            name: self.user.loginname,
             phoneNum: self.phone_num,
             address: self.address,
             postCode: self.postal_code

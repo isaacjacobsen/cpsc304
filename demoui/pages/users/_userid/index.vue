@@ -2,7 +2,7 @@
   <section class="user-view">
     <div class="content">
       <div class="subsection">
-        <span class="user-username" style="padding: 10px 0 10px 20px; margin: 10px 0 10px 0; padding-top: 5%">{{ user.name }}</span>
+        <span class="user-username" style="padding: 10px 0 10px 20px; margin: 10px 0 10px 0; padding-top: 5%">{{ user.loginname }}</span>
         <br>
         <span class="user-type">User type: {{ user.usertypename }}</span>
         <br>
