@@ -152,7 +152,7 @@ router.post('/employees/emp_payroll/:employeeid/update', bodyParser.json(), func
     })
   .then(result => {
     console.log(userid)
-    res.send('/employees/' + userid + '/view_employees')
+    res.send('/users/' + userid + '/view_employees')
   });
 });
 
