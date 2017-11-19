@@ -30,7 +30,6 @@
           <label v-if="show" for="toggle2" style="color: black;">Check Appointments</label>
 
           <div v-if="isManager"><br></div>
-
           <input v-if="isManager" id="toggle3" name="compType" value="3" type="radio" v-model="selections">
           <label v-if="isManager" for="toggle3" style="color: black;">Manage Employee</label>
 
@@ -40,7 +39,7 @@
 
           <div v-if="isManager"><br></div>
           <input v-if="isManager" id="toggle5" name="compType" value="5" type="radio" v-model="selections">
-          <label v-if="isManager" for="toggle5" style="color: black;">View Patients</label>
+          <label v-if="isManager" for="toggle5" style="color: black;">View This Month's Patients</label>
           </div></div>
 
           <p></p>

@@ -59,7 +59,7 @@ router.get('/appo/:getPname', function (req, res, next) {
   console.log('get pname!' + req.params.getPname)
   const pname = req.params.getPname
   const query = 'SELECT DISTINCT ename FROM Employees E JOIN AttendsAppointment AA ON AA.EmployeeID = E.EmployeeId JOIN Visits V ON V.VisitId = AA.VisitId JOIN Patients P ON P.PatientId = V.PatientId WHERE pname = \'' + req.params.getPname + '\''
-
+  
   connection.query(query,
     {
       type: connection.QueryTypes.SELECT,
@@ -117,6 +117,31 @@ router.get('/showall', function (req, res, next) {
         res.json(app)
       } else {
         res.status(404).json({})
+      }
+    })
+})
+
+router.get('/currmonthpatients', function (req, res, next) {
+  const query = `SELECT DISTINCT pname, P.patientid, P.phone_num
+FROM
+    Visits V
+    JOIN Patients P ON P.PatientId = V.PatientId
+    JOIN Hospitals H ON H.HospitalId = V.HospitalId
+WHERE
+    (SELECT EXTRACT(YEAR FROM admitted_datetime)) = (SELECT EXTRACT(YEAR FROM current_timestamp))
+    AND (SELECT EXTRACT(MONTH FROM admitted_datetime)) = (SELECT EXTRACT(MONTH FROM current_timestamp))
+    AND H.hname_short = 'VGH'`
+  connection.query(query,
+    {
+      type: connection.QueryTypes.SELECT,
+      replacements: {
+      }
+    })
+    .then(patients => {
+      if (patients.length >= 1) {
+        res.json(patients)
+      } else {
+        res.status(404).json({err: 'no patients'})
       }
     })
 })
