@@ -90,8 +90,9 @@ export default {
       if (this.selections === '1') this.updateUser()
       else if (this.selections === '2') this.doAppo()
       else if (this.selections === '3') this.viewEmployees()
+      else if (this.selections === '4') this.addUser()
       else {
-        this.addUser()
+        alert('Please make a selection before continue')
       }
     },
     addUser () {
@@ -114,7 +115,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style>
 
   .option {
     display: flex;
