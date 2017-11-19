@@ -37,6 +37,10 @@
           <div v-if="isAdm"><br></div>
           <input v-if="isAdm" id="toggle4" name="compType" value="4" type="radio" v-model="selections">
           <label v-if="isAdm" for="toggle4" style="color: black;">Add New User</label>
+
+          <div v-if="isManager"><br></div>
+          <input v-if="isManager" id="toggle5" name="compType" value="5" type="radio" v-model="selections">
+          <label v-if="isManager" for="toggle5" style="color: black;">View Patients</label>
           </div></div>
 
           <p></p>
@@ -91,6 +95,7 @@ export default {
       else if (this.selections === '2') this.doAppo()
       else if (this.selections === '3') this.viewEmployees()
       else if (this.selections === '4') this.addUser()
+      else if (this.selections === '5') this.viewPatient()
       else {
         alert('Please make a selection before continue')
       }
@@ -110,6 +115,9 @@ export default {
     logoutUser () {
       this.user = {}
       this.$nuxt.$router.replace({ path: '/' })
+    },
+    viewPatient () {
+      this.$nuxt.$router.replace({ path: `/users/${this.user.userid}/currmonthpatients` })
     }
   }
 }
