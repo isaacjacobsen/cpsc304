@@ -1,6 +1,6 @@
 
 <template>
-  <div>
+  <div style="background: rgb(37, 73, 142)">
   <div id=header>
     <div class="container" id="head">
       <div class="icon2" style="text-shadow: 0 0 20px 20px rgba(0,0,0,0.1);">UBC</div>
@@ -115,48 +115,13 @@ export default {
 }
 </script>
 
-<style>
-
-  .option {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: auto;
-  }
-
-  .image {
-    opacity: 1;
-    display: block;
-    width: auto;
-    height: auto;
-    transition: .5s ease;
-    backface-visibility: hidden;
-  }
-
-  .middle {
-    transition: .5s ease;
-    opacity: 0;
-    position: absolute;
-    align-items: center;
-    justify-content: center;
-    top: auto;
-    left: auto;
-  }
+<style scoped>
 
   .text {
     background-color: #ff443d;
     color: white;
     font-size: 16px;
     padding: 15px 80px;
-  }
-
-  .option:hover .image {
-    opacity: 0.7;
-    background: #000000;
-  }
-
-  .option:hover .middle {
-    opacity: 1;
   }
 
   table {
@@ -217,9 +182,9 @@ export default {
     padding: 20px;
   }
 
-  body {
+  body, html {
     height: 900px;
-    background: rgb(37, 73, 142);
+    background: rgb(37, 73, 142) !important;
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
   }
 
@@ -489,7 +454,7 @@ export default {
   }
 
   footer{
-    border: 0px;
+    border: 0;
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
     color: #fff;
     margin: 0 0 0 0;
@@ -498,19 +463,5 @@ export default {
     display: block;
     background: rgb(37, 73, 142);
   }
-  .abutton{
-    width: 30%;
-    background-color: #ff443d;
-    color: #ffffff;
-    font-size: 20px;
-    padding: 8px 10px;
-    border: none;
-    border-radius: 7px;
-    display: block;
-    margin-left: 16em;
-  }
-  .abutton:hover{
-    background-color: #a52727;
-    box-shadow: 0 0 5px 5px rgba(0,0,0,0.1);
-  }
+
 </style>
