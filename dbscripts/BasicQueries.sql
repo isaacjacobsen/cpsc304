@@ -137,16 +137,19 @@ ORDER BY
     YearlyPay DESC
 
 /* #8: Find names of patients who haven't checked out yet of hospital (use short name) (No discharge date) */
-/*SELECT DISTINCT
-    pname As PatientName
+SELECT DISTINCT
+	V.admitted_datetime,
+    pname As PatientName,
+    P.patientid,
+    P.phone_num
 FROM
     Visits V
-    JOIN Hospitals H ON H.HospitalId = V.HospitalId
+    JOIN Hospitals H ON H.hospitalid = V.hospitalid
     JOIN Patients P ON P.PatientId = V.PatientId
 WHERE
-    (((SELECT EXTRACT(MONTH FROM admitted_datetime)) >= 9 AND (SELECT EXTRACT(YEAR FROM admitted_datetime)) >= 2017)
-    OR (SELECT EXTRACT(YEAR FROM admitted_datetime)) > 2017)
-    AND H.hname_full = 'Vancouver General Hospital'*/
+    V.discharged_datetime IS NULL
+ORDER BY
+	V.admitted_datetime
 
 /* #9: This finds the cardiologists that work in the same hospital as "Yoshi Yamaha" */
 SELECT DISTINCT
