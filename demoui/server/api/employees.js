@@ -4,49 +4,94 @@ const bodyParser = require('body-parser')
 
 const router = Router()
 
-// * Get Query #7
-
 router.get('/employees', function (req, res, next) {
-  const query = `SELECT
-    ename, e.employeeid, CAST((bimonthly_wage) AS NUMERIC(36,2)), ew.hname_short,
-    CAST((YearlyPay) AS NUMERIC(36,2)),
-    CASE
-        WHEN D.doctor_type IS NOT NULL THEN 'Doctor'
-        WHEN N.nurse_type IS NOT NULL THEN 'Nurse'
-        ELSE 'Unknown'
-    END AS EmployeeType
-FROM
-    (SELECT
-        EmployeeId,
-        SUM(pay_amt) As YearlyPay
+  if (req.query.doctorname && req.query.specialty) {
+    var doctorname = String(req.query.doctorname).replace('-', ' ')
+    var specialty = String(req.query.specialty).replace('-', ' ')
+
+    const getDoctorsQuery = `
+    SELECT DISTINCT
+        ename,
+        E2.EmployeeId,
+        H2.hname_short,
+        D.doctor_type
     FROM
-        Payroll
+        Employees E2
+        JOIN WorksAtWard WAW2 ON WAW2.EmployeeId = E2.EmployeeId
+        JOIN Wards W2 ON W2.WardId = WAW2.WardId
+        JOIN Hospitals H2 ON H2.HospitalId = W2.HospitalId
+        JOIN Doctors D ON D.EmployeeId = E2.EmployeeId
     WHERE
-        (SELECT EXTRACT(YEAR FROM pay_date)) = '2017'
-    GROUP BY
-        EmployeeId) YP
-    JOIN Employees E ON E.EmployeeId = YP.EmployeeId
-    LEFT JOIN Doctors D On D.EmployeeId = E.EmployeeId
-    LEFT JOIN Nurses N On N.EmployeeId = E.EmployeeId
-    JOIN (SELECT DISTINCT e.employeeid, h.hospitalid, h.hname_short
-         FROM Employees e, Wards w, Worksatward ww, Hospitals h
-         WHERE e.employeeid=ww.employeeid AND w.wardid=ww.wardid AND w.hospitalid=h.hospitalid)
-         AS EW ON EW.employeeid = E.employeeid
-ORDER BY
-    e.employeeid ASC`
-  connection.query(query,
-    {
-      type: connection.QueryTypes.SELECT,
-      replacements: {
-      }
-    })
-    .then(employees => {
-      if (employees.length >= 1) {
-        res.json(employees)
-      } else {
-        res.status(404).json({err: 'no employees'})
-      }
-    })
+        ename <> :doctorname
+        AND D.doctor_type = :specialty
+        AND H2.HospitalId IN
+            (SELECT DISTINCT
+                H.HospitalId
+            FROM
+                Employees E
+                JOIN WorksAtWard WAW ON WAW.EmployeeId = E.EmployeeId
+                JOIN Wards W ON W.WardId = WAW.WardId
+                JOIN Hospitals H ON H.HospitalId = W.HospitalId
+            WHERE
+                ename = :doctorname)`
+
+    connection.query(getDoctorsQuery,
+      {
+        type: connection.QueryTypes.SELECT,
+        replacements: {
+          doctorname: doctorname,
+          specialty: specialty
+        }
+      })
+      .then(employees => {
+        if (employees.length >= 1) {
+          res.json(employees)
+        } else {
+          res.status(404).json({err: 'no doctors'})
+        }
+      })
+  } else {
+    const query = `SELECT
+      ename, e.employeeid, CAST((bimonthly_wage) AS NUMERIC(36,2)), ew.hname_short,
+      CAST((YearlyPay) AS NUMERIC(36,2)),
+      CASE
+          WHEN D.doctor_type IS NOT NULL THEN 'Doctor'
+          WHEN N.nurse_type IS NOT NULL THEN 'Nurse'
+          ELSE 'Unknown'
+      END AS EmployeeType
+  FROM
+      (SELECT
+          EmployeeId,
+          SUM(pay_amt) As YearlyPay
+      FROM
+          Payroll
+      WHERE
+          (SELECT EXTRACT(YEAR FROM pay_date)) = '2017'
+      GROUP BY
+          EmployeeId) YP
+      JOIN Employees E ON E.EmployeeId = YP.EmployeeId
+      LEFT JOIN Doctors D On D.EmployeeId = E.EmployeeId
+      LEFT JOIN Nurses N On N.EmployeeId = E.EmployeeId
+      JOIN (SELECT DISTINCT e.employeeid, h.hospitalid, h.hname_short
+          FROM Employees e, Wards w, Worksatward ww, Hospitals h
+          WHERE e.employeeid=ww.employeeid AND w.wardid=ww.wardid AND w.hospitalid=h.hospitalid)
+          AS EW ON EW.employeeid = E.employeeid
+  ORDER BY
+      e.employeeid ASC`
+    connection.query(query,
+      {
+        type: connection.QueryTypes.SELECT,
+        replacements: {
+        }
+      })
+      .then(employees => {
+        if (employees.length >= 1) {
+          res.json(employees)
+        } else {
+          res.status(404).json({err: 'no employees'})
+        }
+      })
+  }
 })
 
 router.get('/employees/hos/:hospitalcode', function (req, res, next) {
