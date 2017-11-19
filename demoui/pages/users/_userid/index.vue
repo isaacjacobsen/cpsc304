@@ -89,9 +89,9 @@ export default {
     doTask () {
       if (this.selections === '1') this.updateUser()
       else if (this.selections === '2') this.doAppo()
+      else if (this.selections === '3') this.viewEmployees()
       else {
-        // console.log('3' + this.selections)
-        this.viewEmployees()
+        this.addUser()
       }
     },
     addUser () {
