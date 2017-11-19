@@ -131,6 +131,31 @@ ORDER BY
 
 
 /* QUERY #9 */
+/* This gets the specialists that work at the same hospital as another doctor */
+SELECT DISTINCT
+        ename,
+        E2.EmployeeId,
+        H2.hname_short,
+        D.doctor_type
+    FROM
+        Employees E2
+        JOIN WorksAtWard WAW2 ON WAW2.EmployeeId = E2.EmployeeId
+        JOIN Wards W2 ON W2.WardId = WAW2.WardId
+        JOIN Hospitals H2 ON H2.HospitalId = W2.HospitalId
+        JOIN Doctors D ON D.EmployeeId = E2.EmployeeId
+    WHERE
+        ename <> :doctorname
+        AND D.doctor_type = :specialty
+        AND H2.HospitalId IN
+            (SELECT DISTINCT
+                H.HospitalId
+            FROM
+                Employees E
+                JOIN WorksAtWard WAW ON WAW.EmployeeId = E.EmployeeId
+                JOIN Wards W ON W.WardId = WAW.WardId
+                JOIN Hospitals H ON H.HospitalId = W.HospitalId
+            WHERE
+                ename = :doctorname)
 
 
 /* QUERY #10 */
