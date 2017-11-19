@@ -15,42 +15,26 @@
               <button type="button" class="button--grey" @click="searchByWard">Search Ward</button>
           </div>
           <br>
-            <table style="margin-top: 3%; margin-bottom: 5%">
-                <tbody v-if="showByHospital">
-                <tr class="employee-header">
-                    <th>Employee Name</th>
-                    <th>EID</th>
-                    <th>Bimonthly Wage</th>
-                    <th>YTD Earnings</th>
-                    <th>Employee Type</th>
-                    <th>Hospital</th>
-                </tr>
-                <tr v-for="(employee, index) in employees">
-                    <td class="employee-name">{{ employee.ename }}</td>
-                    <td class="employee-info">{{ employee.employeeid }}</td>
-                    <td class="employee-info">{{ employee.bimonthly_wage }}</td>
-                    <td class="employee-info">{{ employee.yearlypay }}</td>
-                    <td class="employee-info">{{ employee.employeetype }}</td>
-                    <td class="employee-info">{{ employee.hname_short }}</td>
-                </tr>
-                </tbody>
-                <tbody v-if="showByWard">
-                <tr class="employee-header">
-                    <th>Employee Name</th>
-                    <th>EID</th>
-                    <th>Bimonthly Wage</th>
-                    <th>YTD Earnings</th>
-                    <th>Employee Type</th>
-                    <th>Ward</th>
-                </tr>
-                <tr v-for="(employee, index) in employees">
-                    <td class="employee-name">{{ employee.ename }}</td>
-                    <td class="employee-info">{{ employee.employeeid }}</td>
-                    <td class="employee-info">{{ employee.bimonthly_wage }}</td>
-                    <td class="employee-info">{{ employee.yearlypay }}</td>
-                    <td class="employee-info">{{ employee.employeetype }}</td>
-                    <td class="employee-info">{{ employee.ward_name }} - {{ employee.hname_short}}</td>
-                </tr>
+            <table v-if="showByHospital || showByWard" style="margin-top: 3%; margin-bottom: 5%">
+                <tbody>
+                  <tr class="employee-header">
+                      <th>Employee Name</th>
+                      <th>EID</th>
+                      <th>Bimonthly Wage</th>
+                      <th>YTD Earnings</th>
+                      <th>Employee Type</th>
+                      <th v-if="showByHospital">Hospital</th>
+                      <th v-if="showByWard">Ward</th>
+                  </tr>
+                  <tr v-for="(employee, index) in employees">
+                      <td class="employee-name">{{ employee.ename }}</td>
+                      <td class="employee-info">{{ employee.employeeid }}</td>
+                      <td class="employee-info">{{ employee.bimonthly_wage }}</td>
+                      <td class="employee-info">{{ employee.yearlypay }}</td>
+                      <td class="employee-info">{{ employee.employeetype }}</td>
+                      <td v-if="showByHospital" class="employee-info">{{ employee.hname_short }}</td>
+                      <td v-if="showByWard" class="employee-info">{{ employee.ward_name }} - {{ employee.hname_short}}</td>
+                  </tr>
                 </tbody>
             </table>
         <button type="button" class="button--grey" @click="updatePayroll">Update Employee</button>
@@ -105,25 +89,27 @@ export default {
         })
     },
     searchByHospital () {
-      this.showByHospital = true
       this.showByWard = false
-      return axios.get('/api/employees/hos/' + this.hospitalcode)
+      return axios.get('/api/employees/hos/' + String(this.hospitalcode).toUpperCase())
         .then((res) => {
+          this.showByHospital = true
           this.employees = res.data
         })
         .catch((e) => {
+          this.showByHospital = false
           this.employees = null
           alert('No employees in hospital')
         })
     },
     searchByWard () {
       this.showByHospital = false
-      this.showByWard = true
       return axios.get('/api/employees/ward/' + this.wardid)
         .then((res) => {
+          this.showByWard = true
           this.employees = res.data
         })
         .catch((e) => {
+          this.showByWard = false
           this.employees = null
           alert('No employees in ward')
         })
