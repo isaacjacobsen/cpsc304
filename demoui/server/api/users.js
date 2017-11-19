@@ -58,7 +58,7 @@ router.get('/users/:userid', function (req, res, next) {
 router.get('/appo/:getPname', function (req, res, next) {
   console.log('get pname!' + req.params.getPname)
   const pname = req.params.getPname
-  const query = 'SELECT ename FROM Employees E JOIN AttendsAppointment AA ON AA.EmployeeID = E.EmployeeId JOIN Visits V ON V.VisitId = AA.VisitId JOIN Patients P ON P.PatientId = V.PatientId WHERE pname = \'' + req.params.getPname + '\''
+  const query = 'SELECT DISTINCT ename FROM Employees E JOIN AttendsAppointment AA ON AA.EmployeeID = E.EmployeeId JOIN Visits V ON V.VisitId = AA.VisitId JOIN Patients P ON P.PatientId = V.PatientId WHERE pname = \'' + req.params.getPname + '\''
 
   connection.query(query,
     {
