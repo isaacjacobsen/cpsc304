@@ -146,6 +146,35 @@ WHERE
     })
 })
 
+router.get('/inpatients', function (req, res, next) {
+  const query = `SELECT DISTINCT
+	V.admitted_datetime,
+    pname As PatientName,
+    P.patientid,
+    P.phone_num
+FROM
+    Visits V
+    JOIN Hospitals H ON H.hospitalid = V.hospitalid
+    JOIN Patients P ON P.PatientId = V.PatientId
+WHERE
+    V.discharged_datetime IS NULL
+ORDER BY
+	V.admitted_datetime`
+  connection.query(query,
+    {
+      type: connection.QueryTypes.SELECT,
+      replacements: {
+      }
+    })
+    .then(patients => {
+      if (patients.length >= 1) {
+        res.json(patients)
+      } else {
+        res.status(404).json({err: 'no patients'})
+      }
+    })
+})
+
 router.get('/addAppo', function (req, res, next) {
   const query = '' // deleted
   connection.query(query,
