@@ -1,6 +1,10 @@
 /* Create Hospitals */
 INSERT INTO Hospitals 
 VALUES(DEFAULT, 'VGH', 'Vancouver General Hospital', '899 W 12th Ave, Vancouver, BC', 'V5Z1M9', '(604)-875-4111'); 
+INSERT INTO Hospitals 
+VALUES(DEFAULT, 'BBH', 'Burnaby Hospital', '3935 Kincaid St, Burnaby, BC', 'V5G2X6', '(604)-434-4211'); 
+INSERT INTO Hospitals 
+VALUES(DEFAULT, 'RMH', 'Richmond Hospital', '7000 Westminster Hwy, Richmond, BC', 'V6X1A2', '(604)-278-9711'); 
 
 /* Create Wards */
 INSERT INTO Wards
@@ -13,7 +17,10 @@ INSERT INTO Wards
 VALUES (DEFAULT, 1, 'Cancer', '102');
 INSERT INTO Wards
 VALUES (DEFAULT, 1, 'Natal', '107');
-
+INSERT INTO Wards
+VALUES (DEFAULT, 2, 'ER', '009');
+INSERT INTO Wards
+VALUES (DEFAULT, 3, 'Maternity', '010');
 
 /* Create Employees */
 INSERT INTO Employees
@@ -36,6 +43,10 @@ INSERT INTO Employees
 VALUES(DEFAULT, 'Hardip Singh', '(604)-234-5432', '51234 Boundary Rd, Vancouver, BC', 'V8J7H2', 31841.00);
 INSERT INTO Employees
 VALUES(DEFAULT, 'Monta Ellis', '(778)-542-4312', '5555 Landse Cr, Vancouver, BC', 'V3J4H4', 9590.00);
+INSERT INTO Employees
+VALUES(DEFAULT, 'Zip Zap', '(778)-909-1188', '7684 Kingsway, Vancouver, BC', 'V9A0R4', 10002.00);
+INSERT INTO Employees
+VALUES(DEFAULT, 'Apa Ave', '(604)-222-4153', '5555 West Mall, Vancouver, BC', 'V7Y4T0', 8303.10);
 
 /* Create Doctors */
 INSERT INTO Doctors
@@ -366,4 +377,6 @@ VALUES ('johndoe', 'password', 5, 'John Doe', 1);
 INSERT INTO Users (username, password, typeid, name, patientid)
 VALUES ('connorc', 'password', 5, 'Steve Brooks', 4);
 INSERT INTO Users (username, password, typeid, name)
-VALUES ('jakey', 'password', 2, 'Jake Helton')
+VALUES ('jakey', 'password', 2, 'Jake Helton');
+INSERT INTO Users (username, password, typeid, name)
+VALUES ('jane', 'password', 1, 'Jane Lively');
