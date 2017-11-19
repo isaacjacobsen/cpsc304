@@ -275,7 +275,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 .user-view
   padding-top 0
 

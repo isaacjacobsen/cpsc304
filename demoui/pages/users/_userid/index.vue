@@ -1,23 +1,61 @@
+
 <template>
-  <section class="user-view">
-    <div class="content">
-      <div class="subsection">
-        <span class="user-username" style="padding: 10px 0 10px 20px; margin: 10px 0 10px 0; padding-top: 5%">{{ user.loginname }}</span>
-        <br>
-        <span class="user-type">User type: {{ user.usertypename }}</span>
-        <br>
-        <span v-if="(this.user.doctor_type !== null)" class="user-type">Ward: {{ user.doctor_type }}</span>
-        <span v-if="(this.user.nurse_type !== null)" class="user-type">Ward: {{ user.nurse_type }}</span>
-        <br><br>
-        <button class="button--grey" @click="updateUser">Update Info</button>
-        <button v-if="isAdm" class="button--grey" @click="addUser">Add User</button>
-        <button v-if="show" class="button--grey" @click="doAppo"> Appointments</button>
-        <button v-if="isManager" class="button--grey" @click="viewEmployees">View Employees</button>
-        <button class="button--grey" @click="logoutUser">Logout</button>
-      </div>
+  <div>
+  <div id=header>
+    <div class="container" id="head">
+      <div class="icon2" style="text-shadow: 0 0 20px 20px rgba(0,0,0,0.1);">UBC</div>
+      <div class="icon" style="text-shadow: 0 0 20px 20px rgba(0,0,0,0.1);">+</div>
     </div>
-  </section>
+  </div>
+  <div id="wrap">
+    <p class="wrap text"><br>UBC Hospital System <br> Welcome {{ user.loginname }} <br><br></p>
+
+    <div>
+      <main>
+        <form id="main-form">
+          <h2 style="color: black"><b>User Type: {{ user.usertypename }}</b></h2>
+
+          <h2 v-if="(this.user.doctor_type !== null)" style="color: black;">Ward: {{ user.doctor_type }}</h2>
+          <h2 v-if="(this.user.nurse_type !== null)" style="color: black;">Ward: {{ user.nurse_type }}</h2>
+          <hr>
+          <h3 style="color: black;">I Want To:</h3>
+          <div style="padding-left: 40%">
+          <div style="text-align: left">
+
+          <input id="toggle1" name="compType" value="1" type="radio" v-model="selections">
+          <label for="toggle1" style="color: black">Update My Information</label>
+
+          <div  v-if="show"><br></div>
+          <input v-if="show" id="toggle2" name="compType" value="2" type="radio" v-model="selections">
+          <label v-if="show" for="toggle2" style="color: black;">Check Appointments</label>
+
+          <div v-if="isManager"><br></div>
+
+          <input v-if="isManager" id="toggle3" name="compType" value="3" type="radio" v-model="selections">
+          <label v-if="isManager" for="toggle3" style="color: black;">Manage Employee</label>
+
+          <div v-if="isAdm"><br></div>
+          <input v-if="isAdm" id="toggle4" name="compType" value="4" type="radio" v-model="selections">
+          <label v-if="isAdm" for="toggle4" style="color: black;">Add New User</label>
+          </div></div>
+
+          <p></p>
+          <input type="button" value = "Continue" @click='doTask'/>
+          <br>
+          <input type="button" value="Log Out"  @click="logoutUser" />
+        </form>
+      </main>
+      <div id="placeholder"></div>
+      <br><br><br>
+    </div>
+  </div>
+    <footer>
+      <p align="center">&copy; 2017 | Team 50 | All Rights Reserved</p>
+      <p align="center">A Demo Webpage For CPSC 304 Project</p>
+    </footer>
+  </div>
 </template>
+
 
 <script>
 import axios from '~/plugins/axios'
@@ -42,7 +80,20 @@ export default {
       title: `User: ${this.user.username}`
     }
   },
+  data () {
+    return {
+      selections: ''
+    }
+  },
   methods: {
+    doTask () {
+      if (this.selections === '1') this.updateUser()
+      else if (this.selections === '2') this.doAppo()
+      else {
+        // console.log('3' + this.selections)
+        this.viewEmployees()
+      }
+    },
     addUser () {
       self.$nuxt.$router.replace({ path: `/users/${this.user.userid}/add` })
     },
@@ -63,40 +114,402 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 
-.content
-  position: absolute;
-  width: 100%;
+  .option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+  }
 
-.subsection
-  background-color #fff
-  border-radius 2px
-  margin 25px 0
-  transition all .5s cubic-bezier(.55,0,.1,1)
-  padding 10px 30px 10px 30px
-  position relative
-  line-height 20px
-  .subsection-title
-    margin 25px 10px
-    font-size 26px
-    font-weight 500
-  .user-username
-    font-size 24px
-    font-weight 500
-  .user-type
-    font-size 20px
-    font-weight 300
-    color #46a2c5
-    padding 10px 0 10px 20px
-    margin: 10px 10 10px 0
-  .user-password
-    font-size 24px
-    font-weight 500
-    color #707070
-  a
-    text-decoration underline
-    &:hover
-      color #515ec4
+  .image {
+    opacity: 1;
+    display: block;
+    width: auto;
+    height: auto;
+    transition: .5s ease;
+    backface-visibility: hidden;
+  }
 
+  .middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    top: auto;
+    left: auto;
+  }
+
+  .text {
+    background-color: #ff443d;
+    color: white;
+    font-size: 16px;
+    padding: 15px 80px;
+  }
+
+  .option:hover .image {
+    opacity: 0.7;
+    background: #000000;
+  }
+
+  .option:hover .middle {
+    opacity: 1;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even){background-color: #f2f2f2}
+
+  input[type=text], select {
+    width: auto;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  input[type=button] {
+    width: 30%;
+    background-color: #ff443d;
+    color: #ffffff;
+    padding: 8px 10px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 10px;
+  }
+
+  input[type=button]:hover {
+    background-color: #730612;
+  }
+
+  input[type=search] {
+    width: 50%;
+    background-color: #ff443d;
+    color: #ffffff;
+    padding: 8px 10px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 10px;
+  }
+
+  input[type=search]:hover {
+    background-color: #730612;
+  }
+
+  div.special {
+    width: 70%;
+    color: #ffffff;
+    border-radius: 15px;
+    background-color: #f1f2f4;
+    padding: 20px;
+  }
+
+  body {
+    height: 900px;
+    background: rgb(37, 73, 142);
+    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
+  }
+
+  #wrap{
+    position: relative;
+    width:80%;
+    height:auto;
+    background-color: #fafafa;
+    margin: 5px auto;
+    border-radius: 30px;
+    box-shadow: 0 0 20px 20px rgba(0,0,0,0.1);
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .wrap.text {
+    text-align: center;
+    background-color: #000000;
+    text-shadow: black;
+    font-family: 'Open Sans', sans-serif;
+    color: white;
+    font-size: 25px;
+    font-weight: 700;
+    border-top-left-radius: 28px;
+    border-top-right-radius: 28px;
+  }
+  main {
+    background: #e7e7e7;
+    width: 90%;
+    margin: 20px auto;
+    padding: 10px 0;
+    box-shadow: 0 5px 5px rgba(0,0,0,0.3);
+    text-align: center;
+    border-radius: 20px;
+  }
+  main.h2 {
+    color: black;
+  }
+  main.p {
+    font-size: 13px;
+    color: black;
+    text-align: left;
+
+  }
+  main.input {
+    display: none;
+    visibility: hidden;
+  }
+  main.label {
+    margin-left: 0;
+    alignment: left;
+    display: block;
+    padding: 0.5em;
+    border-bottom: 1px solid #000000;
+    color: #000000;
+  }
+  main.label:hover {
+    color: #0082ff;
+  }
+  main.label::before {
+    font-family: Consolas, monaco, monospace;
+    font-weight: bold;
+    font-size: 15px;
+    vertical-align: text-top;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 3px;
+    background: radial-gradient(ellipse at center, #CCC 50%, transparent 50%);
+  }
+
+  #expand1 {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s;
+    color: #000000;
+  }
+  #toggle1:checked ~ #expand1 {
+    height: 55px;
+  }
+
+  #expand2 {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s;
+    color: #000000;
+  }
+  #toggle2:checked ~ #expand2 {
+    height: 55px;
+  }
+
+  #expand3 {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s;
+    color: #000000;
+  }
+  #toggle3:checked ~ #expand3 {
+    height: 55px;
+  }
+
+  #expand4 {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s;
+    color: #000000;
+  }
+  #toggle4:checked ~ #expand4 {
+    height: 55px;
+  }
+
+  #expand5 {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s;
+    color: #000000;
+  }
+  #toggle5:checked ~ #expand5 {
+    height: 55px;
+  }
+
+  #expandMedium1 {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s;
+    color: #000000;
+  }
+  #toggleMedium1:checked ~ #expandMedium1 {
+    height: 80px;
+  }
+
+  #expandMedium2 {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s;
+    color: #000000;
+  }
+  #toggleMedium2:checked ~ #expandMedium2 {
+    height: 80px;
+  }
+
+  #expandMedium3 {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s;
+    color: #000000;
+  }
+  #toggleMedium3:checked ~ #expandMedium3 {
+    height: 120px;
+  }
+
+  #expandLarge {
+    display: none;
+    height: auto;
+    overflow: hidden;
+    color: #000000;
+  }
+  #sectionsToggle:checked ~ #expandLarge {
+    display: block;
+  }
+
+  main.section {
+    padding: 0 20px;
+  }
+
+  input[type="checkbox"]{
+    cursor: pointer;
+    -webkit-appearance: none;
+    background: #4e4e4e;
+    border-radius: 7px;
+    box-sizing: border-box;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border-width: 0;
+    transition: all .3s linear;
+  }
+  input[type="checkbox"]:hover {
+    background-color: #b1a8ab;
+  }
+  input[type="checkbox"]:checked{
+    background-color: #143b5e;
+  }
+  input[type="checkbox"]:focus{
+    outline: 0 none;
+    box-shadow: none;
+  }
+
+  table {
+    color: #333; /* Lighten up font color */
+    font-family: Helvetica, Arial, sans-serif; /* Nicer font */
+    width: 30%;
+    border-collapse: collapse; border-spacing: 0;
+  }
+
+  td, th { border: 3px solid #CCC; height: 30px; } /* Make cells a bit taller */
+
+  th {
+    background: #F3F3F3; /* Light grey background */
+    font-weight: bold; /* Make sure they're bold */
+  }
+
+  td {
+    background: #FAFAFA; /* Lighter grey background */
+    text-align: center; /* Center our text */
+  }
+
+
+  .icon {
+    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
+    color: #fff;
+    padding: 0 0 30px 0;
+    background-color: rgb(255, 56, 56);
+    height: 90px;
+    width: 180px;
+    font-size: 150px;
+    font-weight: 900;
+    line-height: 90px;
+    text-align: center;
+    border-radius: 15px;
+    overflow: hidden;
+    text-shadow: 2px 2px 2px #000;
+    display: inline-block;
+    -webkit-transition: all .2s linear;
+    transition: all .2s linear;
+  }
+
+  .icon:hover{
+    box-shadow: 0 0 30px #ff3e31;
+    background-color: #ff3e31;
+  }
+
+  .icon2 {
+    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
+    font-weight: bold;
+    color: #fff;
+    background-color: rgba(255, 90, 65, 0);
+    height: 100px;
+    width: 250px;
+    font-size: 100px;
+    line-height: 100px;
+    text-align: center;
+    overflow: hidden;
+    text-shadow: 2px 2px 2px #000;
+    display: inline-block;
+  }
+
+  .container {
+    position: relative;
+    text-align: center;
+    margin: 0 0 0 0;
+    padding: 50px;
+    background: rgb(37, 73, 142);
+  }
+
+  .container.text{
+
+    position: relative;
+    text-align: center;
+    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
+    font-weight: bold;
+    color: #fff;
+    margin: 0 0 0 0;
+    padding: 50px;
+    font-size: 20px;
+    display: block;
+    background: rgb(37, 73, 142);
+  }
+
+  footer{
+    border: 0px;
+    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
+    color: #fff;
+    margin: 0 0 0 0;
+    padding: 50px;
+    font-size: 20px;
+    display: block;
+    background: rgb(37, 73, 142);
+  }
+  .abutton{
+    width: 30%;
+    background-color: #ff443d;
+    color: #ffffff;
+    font-size: 20px;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 7px;
+    display: block;
+    margin-left: 16em;
+  }
+  .abutton:hover{
+    background-color: #a52727;
+    box-shadow: 0 0 5px 5px rgba(0,0,0,0.1);
+  }
 </style>

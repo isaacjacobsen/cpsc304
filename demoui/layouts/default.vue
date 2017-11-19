@@ -19,9 +19,9 @@ body
   color #34495e
   //overflow-y scroll
 
-*, *:before, *:after
-  box-sizing border-box
-  margin 0
+//*, *:before, *:after
+//  box-sizing border-box
+//  margin 0
 
 a
   color #34495e
