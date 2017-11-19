@@ -44,7 +44,15 @@ WHERE
 
 
 /* QUERY #4 */
-
+/* The purpose of this query is to find the patients who have visited the hospital in the current month. */
+SELECT DISTINCT pname, P.patientid, P.phone_num
+FROM
+    Visits V
+    JOIN Patients P ON P.PatientId = V.PatientId
+    JOIN Hospitals H ON H.HospitalId = V.HospitalId
+WHERE
+    (SELECT EXTRACT(YEAR FROM admitted_datetime)) = (SELECT EXTRACT(YEAR FROM current_timestamp))
+    AND (SELECT EXTRACT(MONTH FROM admitted_datetime)) = (SELECT EXTRACT(MONTH FROM current_timestamp))
 
 /* QUERY #5 */
 /* This gets the name of the employees who have had an appointment with a patient with a provided name */
@@ -128,6 +136,20 @@ ORDER BY
 
 
 /* QUERY #8 */
+/* This gets the list of the patients that have not been discharged yet */
+SELECT DISTINCT
+    V.admitted_datetime,
+    pname As PatientName,
+    P.patientid,
+    P.phone_num
+FROM
+    Visits V
+    JOIN Hospitals H ON H.hospitalid = V.hospitalid
+    JOIN Patients P ON P.PatientId = V.PatientId
+WHERE
+    V.discharged_datetime IS NULL
+ORDER BY
+    V.admitted_datetime
 
 
 /* QUERY #9 */
