@@ -2,57 +2,57 @@
   <section class="user-view">
     <div class="content">
       <div class="subsection">
-        <table style="margin-top: 3%; margin-bottom: 10%">
-            <span class="subsection-title">List of Employees</span>
-            <br>
-            <div style="margin-top: 3%">
-                <h3>Search By 3-digit Hospital Code</h3>
-                <input type="text" :value="hospitalcode" v-model="hospitalcode">
-                <button type="button" class="button--grey" @click="searchByHospital">Search Hospital</button>
-            </div>
-            <br>
-            <tbody v-if="showByHospital">
-            <tr class="employee-header">
-                <th>Employee Name</th>
-                <th>EID</th>
-                <th>Bimonthly Wage</th>
-                <th>YTD Earnings</th>
-                <th>Employee Type</th>
-                <th>Hospital</th>
-            </tr>
-            <tr v-for="(employee, index) in employees">
-                <td class="employee-name">{{ employee.ename }}</td>
-                <td class="employee-info">{{ employee.employeeid }}</td>
-                <td class="employee-info">{{ employee.bimonthly_wage }}</td>
-                <td class="employee-info">{{ employee.yearlypay }}</td>
-                <td class="employee-info">{{ employee.employeetype }}</td>
-                <td class="employee-info">{{ employee.hname_short }}</td>
-            </tr>
-            </tbody>
-            <div style="margin-top: 3%">
-                <h3>Search By Ward ID</h3>
-                <input type="text" :value="wardid" v-model="wardid">
-                <button type="button" class="button--grey" @click="searchByWard">Search Ward</button>
-            </div>
-            <tbody v-if="showByWard">
-            <tr class="employee-header">
-                <th>Employee Name</th>
-                <th>EID</th>
-                <th>Bimonthly Wage</th>
-                <th>YTD Earnings</th>
-                <th>Employee Type</th>
-                <th>Ward</th>
-            </tr>
-            <tr v-for="(employee, index) in employees">
-                <td class="employee-name">{{ employee.ename }}</td>
-                <td class="employee-info">{{ employee.employeeid }}</td>
-                <td class="employee-info">{{ employee.bimonthly_wage }}</td>
-                <td class="employee-info">{{ employee.yearlypay }}</td>
-                <td class="employee-info">{{ employee.employeetype }}</td>
-                <td class="employee-info">{{ employee.ward_name }} - {{ employee.hname_short}}</td>
-            </tr>
-            </tbody>
-        </table>
+          <span class="subsection-title">List of Employees</span>
+          <br>
+          <div style="margin-top: 3%">
+              <h3>Search By 3-digit Hospital Code</h3>
+              <input type="text" :value="hospitalcode" v-model="hospitalcode">
+              <button type="button" class="button--grey" @click="searchByHospital">Search Hospital</button>
+          </div>
+          <div style="margin-top: 3%">
+              <h3>Search By Ward ID</h3>
+              <input type="text" :value="wardid" v-model="wardid">
+              <button type="button" class="button--grey" @click="searchByWard">Search Ward</button>
+          </div>
+          <br>
+            <table style="margin-top: 3%; margin-bottom: 5%">
+                <tbody v-if="showByHospital">
+                <tr class="employee-header">
+                    <th>Employee Name</th>
+                    <th>EID</th>
+                    <th>Bimonthly Wage</th>
+                    <th>YTD Earnings</th>
+                    <th>Employee Type</th>
+                    <th>Hospital</th>
+                </tr>
+                <tr v-for="(employee, index) in employees">
+                    <td class="employee-name">{{ employee.ename }}</td>
+                    <td class="employee-info">{{ employee.employeeid }}</td>
+                    <td class="employee-info">{{ employee.bimonthly_wage }}</td>
+                    <td class="employee-info">{{ employee.yearlypay }}</td>
+                    <td class="employee-info">{{ employee.employeetype }}</td>
+                    <td class="employee-info">{{ employee.hname_short }}</td>
+                </tr>
+                </tbody>
+                <tbody v-if="showByWard">
+                <tr class="employee-header">
+                    <th>Employee Name</th>
+                    <th>EID</th>
+                    <th>Bimonthly Wage</th>
+                    <th>YTD Earnings</th>
+                    <th>Employee Type</th>
+                    <th>Ward</th>
+                </tr>
+                <tr v-for="(employee, index) in employees">
+                    <td class="employee-name">{{ employee.ename }}</td>
+                    <td class="employee-info">{{ employee.employeeid }}</td>
+                    <td class="employee-info">{{ employee.bimonthly_wage }}</td>
+                    <td class="employee-info">{{ employee.yearlypay }}</td>
+                    <td class="employee-info">{{ employee.employeetype }}</td>
+                    <td class="employee-info">{{ employee.ward_name }} - {{ employee.hname_short}}</td>
+                </tr>
+                </tbody>
+            </table>
         <button type="button" class="button--grey" @click="updatePayroll">Update Employee</button>
         <button type="button" class="button--grey" @click="goBack">Back</button>
       </div>
