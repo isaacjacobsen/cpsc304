@@ -182,6 +182,7 @@ export default {
 <style lang='stylus' scoped>
 .user-view
   padding-top 0
+  overflow-y scroll
 
 .content
   position absolute
