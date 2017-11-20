@@ -46,8 +46,8 @@
             </span>
             <br><br>
 
-            <span class="user-type"  style="color: black">Appointment time:</span>
-            <br>
+            <span class="user-type"  style="color: black">Appointment time: (DD/MM/YYYY HH:MM)</span>
+        <br>
             <span style="color: black">
               <input type="text" style="width: 20px" v-model="aptTime[0]"/> /
               <input type="text" style="width: 26px" v-model="aptTime[1]"/> /
@@ -148,17 +148,17 @@ export default {
     getDateString () {
       for (var i in this.aptTime) {
         if (isNaN(this.aptTime[i])) {
-          alert('Please enter valid appointment time')
+          alert('Please enter digits only!')
           return null
         }
 
         if (i === '2' && String(this.aptTime[i]).length.toString() !== '4') {
-          alert('Please enter valid appointment time length1 ' + i + ': ' + String(this.aptTime[i]).length)
+          alert('Year should be 4 digits only!')
           return null
         }
 
         if (i !== '2' && String(this.aptTime[i]).length.toString() !== '2') {
-          alert('Please enter valid appointment time length2 ' + i + ': ' + String(this.aptTime[i]).length)
+          alert('Days, Months, Hours and Minutes should be 2 digits only!')
           return null
         }
       }

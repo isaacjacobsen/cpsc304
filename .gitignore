@@ -1,3 +1,5 @@
 package-lock.json
 .DS_STORE
 demoui.code-workspace
+demoui/server/configs/sequelize.js
+demoui/pages/users/_userid/view_employees.vue
