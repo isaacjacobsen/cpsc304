@@ -2,13 +2,14 @@
   <section class="user-view">
     <div class="content">
       <div class="subsection">
-        <table style="margin-top: 3%; margin-bottom: 10%">
-            <span class="subsection-title">List of Patients Admitted This Month</span>
+          <br>
+          <span class="subsection-title" style="margin-top: 20px">List of Patients Admitted This Month</span>
+        <table style="margin-bottom: 10%;">
             <br>
-			<tr class="patient-header">
-                <th>Patient Name</th>
-                <th>Patient ID</th>
-                <th>Phone Number</th>
+			<tr class="patient-header" style="text-align: left;">
+                <th style="padding-right: 10px">Patient Name</th>
+                <th style="padding-right: 10px">Patient ID</th>
+                <th style="padding-right: 10px">Phone Number</th>
             </tr>
             <tr v-for="(patients, index) in patients">
                 <td class="patient-name">{{ patients.pname }}</td>
