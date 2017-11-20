@@ -207,6 +207,7 @@ export default {
       })
         .catch(error => {
           if (error.response) {
+            this.res = null
             // Response has been received from the server
             alert('no appointments found under this name')
             console.log(error.response.data)
